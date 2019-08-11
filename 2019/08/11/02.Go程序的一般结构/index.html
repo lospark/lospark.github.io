@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="generator" content="Hexo 3.9.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.3.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    save_scroll: false,
+    copycode: {"enable":true,"show_result":true,"style":null},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":true,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="1.一般结构 Go程序是通过 package 来组织的（与python类似），只有 package 名称为 main 的包可以包含 main 函数，一个可执行程序有且仅有 一个 main 包。 通过 import 关键字来导入其它非 main 包 通过 const 关键字来进行常量的定义 通过在函数体外部使用 var 关键字来进行全局变量的声明与赋值 通过 type 关键字来进行结构(struc">
+<meta name="keywords" content="go">
+<meta property="og:type" content="article">
+<meta property="og:title" content="02.Go程序的一般结构">
+<meta property="og:url" content="https://lospark.github.io/2019/08/11/02.Go程序的一般结构/index.html">
+<meta property="og:site_name" content="Eirunye Activity">
+<meta property="og:description" content="1.一般结构 Go程序是通过 package 来组织的（与python类似），只有 package 名称为 main 的包可以包含 main 函数，一个可执行程序有且仅有 一个 main 包。 通过 import 关键字来导入其它非 main 包 通过 const 关键字来进行常量的定义 通过在函数体外部使用 var 关键字来进行全局变量的声明与赋值 通过 type 关键字来进行结构(struc">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-08-11T14:38:21.567Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="02.Go程序的一般结构">
+<meta name="twitter:description" content="1.一般结构 Go程序是通过 package 来组织的（与python类似），只有 package 名称为 main 的包可以包含 main 函数，一个可执行程序有且仅有 一个 main 包。 通过 import 关键字来导入其它非 main 包 通过 const 关键字来进行常量的定义 通过在函数体外部使用 var 关键字来进行全局变量的声明与赋值 通过 type 关键字来进行结构(struc">
+  <link rel="canonical" href="https://lospark.github.io/2019/08/11/02.Go程序的一般结构/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>02.Go程序的一般结构 | Eirunye Activity</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  <div class="container sidebar-position-left">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Eirunye Activity</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Lospark的博客</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">1</span></a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">2</span></a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">13</span></a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-schedule">
+      
+    
+      
+    
+
+    <a href="/schedule/" rel="section"><i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>日程表</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+</nav>
+  <div class="site-search">
+    
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+  </div>
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://lospark.github.io/2019/08/11/02.Go程序的一般结构/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lospark">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/head.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Eirunye Activity">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">02.Go程序的一般结构
+
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-08-11 13:19:50 / 修改时间：14:38:21" itemprop="dateCreated datePublished" datetime="2019-08-11T13:19:50Z">2019-08-11</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/01-Golang/" itemprop="url" rel="index"><span itemprop="name">01.Golang</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/01-Golang/01-基础模块/" itemprop="url" rel="index"><span itemprop="name">01.基础模块</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <ul>
+<li><h5 id="1-一般结构"><a href="#1-一般结构" class="headerlink" title="1.一般结构"></a>1.一般结构</h5><ul>
+<li>Go程序是通过 package 来组织的（与python类似），只有 package 名称为 main 的包可以包含 main 函数，一个可执行程序<strong>有且仅有</strong> 一个 main 包。</li>
+<li>通过 import 关键字来导入其它非 main 包</li>
+<li>通过 const 关键字来进行常量的定义</li>
+<li>通过在函数体外部使用 var 关键字来进行全局变量的声明与赋值</li>
+<li>通过 type 关键字来进行结构(struct)或接口(interface)的声明</li>
+<li>通过 func 关键字来进行函数的声明</li>
+<li><strong>每个语句后面不需要有分号；</strong>，自动根据换行符结束(和JavaScript类似)，每次idea保存时自动格式化，取出句后的分号<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">// 当前程序的包名</span><br><span class="line">package main</span><br><span class="line"></span><br><span class="line">// 导入其它的包</span><br><span class="line">import std &quot;fmt&quot;</span><br><span class="line"></span><br><span class="line">// 常量的定义</span><br><span class="line">const PI = 3.14</span><br><span class="line"></span><br><span class="line">// 全局变量的声明与赋值</span><br><span class="line">var name = &quot;gopher&quot;</span><br><span class="line"></span><br><span class="line">// 一般类型声明</span><br><span class="line">type newType int</span><br><span class="line"></span><br><span class="line">// 结构的声明</span><br><span class="line">type gopher struct&#123;&#125;</span><br><span class="line"></span><br><span class="line">// 接口的声明</span><br><span class="line">type golang interface&#123;&#125;</span><br><span class="line"></span><br><span class="line">// 由 main 函数作为程序入口点启动</span><br><span class="line">func main() &#123;</span><br><span class="line">	std.Println(&quot;Hello world!你好，世界！&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><h5 id="2-细节"><a href="#2-细节" class="headerlink" title="2.细节"></a>2.细节</h5><ul>
+<li><p>(1).Go导入 package 的格式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">import &quot;fmt&quot;</span><br><span class="line">import &quot;os&quot;</span><br><span class="line">可以简化为,注意为小括号，不是大括号</span><br><span class="line">import (</span><br><span class="line">    &quot;fmt&quot;</span><br><span class="line">    &quot;os&quot;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>导入包之后，就可以使用格式<packagename>.<funcname><br>来对包中的函数进行调用</funcname></packagename></li>
+<li>如果导入包之后，未调用其中的函数或者类型将会报出编译错误。</li>
+<li>那么声明多个 常量、全局变量或一般类型（非接口、非结构）可以用上述方式。</li>
+</ul>
+</li>
+<li><p>(2).package 别名</p>
+<ul>
+<li>当使用第三方包时，包名可能会非常接近或者相同，此时就可以使用<br>别名来进行区别和调用<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import (</span><br><span class="line">    std &quot;io&quot;</span><br><span class="line">)</span><br><span class="line">std.Println(&quot;........&quot;)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>(3).<strong>可见性规则</strong></p>
+<ul>
+<li>Go语言中，使用 大小写 来决定该 常量、变量、类型、接口、结构，或函数 是否可以被外部包所调用。<ul>
+<li><strong>根据约定，函数名首字母 小写 即为private</strong></li>
+<li><strong>函数名首字母 大写 即为public</strong></li>
+</ul>
+</li>
+<li>所以在引用第三方包的函数，首字母必定是大写的</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h5 id="3-基本类型"><a href="#3-基本类型" class="headerlink" title="3.基本类型"></a>3.基本类型</h5><ul>
+<li>(1).布尔型：bool<ul>
+<li>长度：1字节</li>
+<li>取值范围：true, false</li>
+<li>注意事项：不可以用数字代表true或false</li>
+</ul>
+</li>
+<li>(2).整型：<ul>
+<li>int/uint<ul>
+<li>根据运行平台可能为32或64位</li>
+</ul>
+</li>
+<li>8位整型：int8/uint8<ul>
+<li>长度：1字节</li>
+<li>取值范围：-128<del>127/0</del>255</li>
+</ul>
+</li>
+<li>16位整型：int16/uint16<ul>
+<li>长度：2字节</li>
+<li>取值范围：-32768<del>32767/0</del>65535</li>
+</ul>
+</li>
+<li>32位整型：int32（rune）/uint32<ul>
+<li>长度：4字节</li>
+<li>取值范围：-2^32/2<del>2^32/2-1/0</del>2^32-1</li>
+</ul>
+</li>
+<li>64位整型：int64/uint64(相当于long)<ul>
+<li>长度：8字节</li>
+<li>取值范围：-2^64/2<del>2^64/2-1/0</del>2^64-1</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>(3).字节型：byte（uint8别名）</li>
+<li>(4).浮点型：float32/float64(因为有float64，所以可以没有double)<ul>
+<li>长度：4/8字节</li>
+<li>小数位：精确到7/15小数位</li>
+</ul>
+</li>
+<li>(5).复数：complex64/complex128<ul>
+<li>长度：8/16字节</li>
+<li>足够保存指针的 32 位或 64 位整数型：uintptr</li>
+</ul>
+</li>
+<li>(6).其它值类型：<ul>
+<li>array(数组)、struct(结构)、string( 字符串)</li>
+</ul>
+</li>
+<li>(7).引用类型：<ul>
+<li>slice(切片，数组的高层封装)、map(哈希表)、chan(通道)</li>
+</ul>
+</li>
+<li>(8).接口类型：inteface</li>
+<li>(9).函数类型：func( 为什么要有函数类型，因为函数可以赋值给变量的)</li>
+</ul>
+</li>
+<li><h5 id="4-类型的零值"><a href="#4-类型的零值" class="headerlink" title="4.类型的零值"></a>4.类型的零值</h5><ul>
+<li>零值并不等于空值，而是当变量被声明为某种类型后的默认值，通常情况下值类型的默认值为0，bool为false，string为空字符串</li>
+<li>声明变量后，如果没有人为赋值，编译器会给他一个值(保证数据的不会凭空出来)</li>
+</ul>
+</li>
+<li><h5 id="5-类型别名"><a href="#5-类型别名" class="headerlink" title="5.类型别名"></a>5.类型别名</h5><ul>
+<li>根据业务需求，可以将一种类型 声明成有意义的类型</li>
+<li>比如 申明一个数据大小单位<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> type (</span><br><span class="line">ByteSize int64</span><br><span class="line"> )</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><h5 id="6-单个变量的声明与赋值"><a href="#6-单个变量的声明与赋值" class="headerlink" title="6.单个变量的声明与赋值"></a>6.单个变量的声明与赋值</h5><ul>
+<li>变量的声明格式：var &lt;变量名称&gt; &lt;变量类型&gt; //方法体外声明变量</li>
+<li>变量的赋值格式：&lt;变量名称&gt; = &lt;表达式&gt; //变量声明后的赋值</li>
+<li>声明的同时赋值：var &lt;变量名称&gt; [变量类型] = &lt;表达式&gt; //强制类型转换，避免系统推测类型</li>
+<li>赋值时省略类型，编译器可自动根据数值类型进行类型推断。<ul>
+<li>var a = 1 ==&gt; 自动推断 a 为int8</li>
+<li>进一步进行简化：类似b:=1或者b:=false </li>
+<li>这里冒号: 等价于关键字var</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h5 id="7-多个变量的声明与赋值"><a href="#7-多个变量的声明与赋值" class="headerlink" title="7.多个变量的声明与赋值"></a>7.多个变量的声明与赋值</h5><ul>
+<li><p>(1).规则：</p>
+<ul>
+<li>全局变量的声明可使用 var() 的方式进行简写</li>
+<li>全局变量的声明不可以省略 var，但可使用并行方式</li>
+<li>所有变量都可以使用类型推断</li>
+<li>局部变量不可以使用 var() 的方式简写，只能使用并行方式</li>
+</ul>
+</li>
+<li><p>(2).var()方式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var (</span><br><span class="line">    //使用常规方式，这里不能使用冒号，</span><br><span class="line">    //因为冒好等同var，和外面的var重复，直接省略冒好即可</span><br><span class="line">    aaa = &quot;hello&quot;</span><br><span class="line">    //使用并行的方式以及类型推断</span><br><span class="line">    sss,bbb = 1,2</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>(3).并行的方式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var a,b,c,d int = 1,2,3,4</span><br><span class="line">e,f := 1,2</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>(4).<strong>:= 的正确使用姿势，当函数有多个返回值时使用！！！</strong></p>
+</li>
+</ul>
+</li>
+<li><h5 id="8-变量的类型转换"><a href="#8-变量的类型转换" class="headerlink" title="8.变量的类型转换"></a>8.变量的类型转换</h5><ul>
+<li>Go中不存在隐式转换，所有类型转换必须显式声明，这保证了Go语言是一种类型安全的语言！</li>
+<li><strong>转换只能发生在两种相互兼容的类型之间</strong></li>
+<li>类型转换的格式：<strong><valuea> [:]= <typeofvaluea>(<valueb>)</valueb></typeofvaluea></valuea></strong><ul>
+<li>比如 b:=int(c)</li>
+<li>如果b是一个未申明变量，需要使用：(:相当于关键字var)</li>
+<li>如果b在前面已经做过声明，直接省略：</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h5 id="9-常量的定义"><a href="#9-常量的定义" class="headerlink" title="9.常量的定义"></a>9.常量的定义</h5><ul>
+<li><p>(1).一般规定</p>
+<ul>
+<li>常量的值在编译时就已经确定,不能引用全局变量的值</li>
+<li>常量的定义格式与变量基本相同</li>
+<li>等号右侧必须是常量或者<strong>常量表达式</strong></li>
+<li>常量表达式中的函数必须是<strong>内置函数</strong>(len等)</li>
+</ul>
+</li>
+<li><p>(2).常量的初始化规则与枚举</p>
+<ul>
+<li><p><strong>在定义常量组时，如果不提供初始值，则表示将使用上行的表达式</strong></p>
+</li>
+<li><p>使用相同的表达式不代表具有相同的值</p>
+</li>
+<li><p>iota是常量的计数器，从0开始，组中每定义1个常量自动递增1</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"> const (</span><br><span class="line">a int    = 1</span><br><span class="line">b string = &quot;A&quot;</span><br><span class="line">c        = iota</span><br><span class="line">d</span><br><span class="line"> )</span><br><span class="line"> 输出 1 A 2 3</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>iota的值与它出现的顺序有关，与它出现的次序无关</li>
+</ul>
+</li>
+<li><p>通过初始化规则与iota可以达到枚举的效果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">      const (</span><br><span class="line">           Monday = iota</span><br><span class="line">           Tuesday </span><br><span class="line">             ......</span><br><span class="line">      )</span><br><span class="line">      ``` </span><br><span class="line">    - 每遇到一个const关键字，iota就会重置为0</span><br><span class="line">  - (3).规范：一般常量为大写字母开头，中间可以加上下划线_</span><br><span class="line">    - 但是大写字母开头的东西都是Public的，所有可以在前面加上_或者小写字母c</span><br><span class="line"></span><br><span class="line">- ##### 10.运算符</span><br><span class="line">  - Go中的运算符均是从左至右结合</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>优先级（从高到低）<br>^      !                                               （一元运算符）</p>
+<ul>
+<li>/    %    &lt;&lt;    &gt;&gt;    &amp;      &amp;^</li>
+</ul>
+<ul>
+<li><ul>
+<li>|      ^                                （二元运算符）<br>==   !=   &lt;    &lt;=    &gt;=    &gt;<br>&lt;-                                              （专门用于channel）<br>&amp;&amp;<br>||<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- 例子：</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>二进制   十进制</p>
+<p>01100   12</p>
+<p>10110   22</p>
+<hr>
+<p>二元位运算符  二进制   十进制    逻辑</p>
+<p>&amp;       00100   4        相同位的两个数字­都为1，则为1；若有一个不为1，则为0。</p>
+<p>|       11110   30       相同位只要一个为1即为1。否则为0</p>
+<p>^       11010   26       相同位不同为1则为1，否则为0。</p>
+<p>&amp;^      01000   8        如果第二个数是1，则强制把第一个数改成0，否则不变。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">- ##### 11.指针</span><br><span class="line">  - Go虽然保留了指针，但与其它编程语言不同的是，在Go当中不</span><br><span class="line">支持指针运算以及”-&gt;”运算符，而直接采用”.”选择符来操作指针</span><br><span class="line">目标对象的成员</span><br><span class="line">  - 操作符”&amp;”取变量地址，使用”*”通过指针间接访问目标对象</span><br><span class="line">默认值为 nil 而非 NULL</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>func main() {<br>  a := 1<br>  var p <em>int = &amp;a<br>  fmt.Println(</em>p)<br>}<br>```</p>
+</li>
+</ul>
+</li>
+<li><h5 id="11-递增递减语句"><a href="#11-递增递减语句" class="headerlink" title="11.递增递减语句"></a>11.递增递减语句</h5><ul>
+<li>在Go中，++ 与 – 是作为语句而并不是作为表达式<ul>
+<li>即 ++或者– 不能出现= 号后边</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/go/" rel="tag"># go</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/08/11/01.环境搭建/" rel="next" title="01.环境搭建">
+                  <i class="fa fa-chevron-left"></i> 01.环境搭建
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2019/08/11/03.Go的控制语句、slice、map/" rel="prev" title="03.Go的控制语句、slice、map">
+                  03.Go的控制语句、slice、map <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/head.jpg"
+      alt="lospark">
+  <p class="site-author-name" itemprop="name">lospark</p>
+  <div class="site-description motion-element" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+      
+        
+      
+        <a href="https://github.com/lospark" title="GitHub &rarr; https://github.com/lospark" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+      
+        
+      
+        <a href="mailto:786834592@qq.com" title="E-Mail &rarr; mailto:786834592@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i></a>
+      </span>
+    
+  </div>
+
+
+
+        </div>
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lospark</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.3.0</div>
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+
+    
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+<script src="/js/utils.js?v=7.3.0"></script>
+  <script src="/js/motion.js?v=7.3.0"></script>
+
+
+  <script src="/js/affix.js?v=7.3.0"></script>
+  <script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.3.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script>
+<script src="/js/post-details.js?v=7.3.0"></script>
+
+
+</body>
+</html>

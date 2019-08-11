@@ -55,19 +55,21 @@
   };
 </script>
 
-  <meta name="description" content="1.Go程序三类测试：功能测试（test）、基准测试（benchmark，也称性能测试），以及示例测试（example）。 (1).一般情况下，一个测试源码文件只会针对于某个命令源码文件，或库源码文件（以下简称被测源码文件）做测试，所以我们总会（并且应该）把它们放在同一个代码包内。 (2).测试源码文件的主名称应该以被测源码文件的主名称为前导，并且必须以“_test”为后缀。我们可以依据这些测试">
+  <meta name="description" content="1.下载 go语言包 网址上输入studygolang.com，点击下载，下载golang的版本 一般是goXXX版本windows-amd64.zip包 下载后放到本地一个位置，直接解压即可，比如E:\Program Files\go   2.配置环境变量 (1).添加系统环境变量GOROOT(语言包)、GOPATH(工作空间目录) (2).添加path，%GOROOT%\bin;%GOPAT">
 <meta name="keywords" content="go">
 <meta property="og:type" content="article">
-<meta property="og:title" content="12.go语言测试">
-<meta property="og:url" content="https://lospark.github.io/2019/08/11/12.go语言测试/index.html">
+<meta property="og:title" content="01.环境搭建">
+<meta property="og:url" content="https://lospark.github.io/2019/08/11/01.环境搭建/index.html">
 <meta property="og:site_name" content="Eirunye Activity">
-<meta property="og:description" content="1.Go程序三类测试：功能测试（test）、基准测试（benchmark，也称性能测试），以及示例测试（example）。 (1).一般情况下，一个测试源码文件只会针对于某个命令源码文件，或库源码文件（以下简称被测源码文件）做测试，所以我们总会（并且应该）把它们放在同一个代码包内。 (2).测试源码文件的主名称应该以被测源码文件的主名称为前导，并且必须以“_test”为后缀。我们可以依据这些测试">
+<meta property="og:description" content="1.下载 go语言包 网址上输入studygolang.com，点击下载，下载golang的版本 一般是goXXX版本windows-amd64.zip包 下载后放到本地一个位置，直接解压即可，比如E:\Program Files\go   2.配置环境变量 (1).添加系统环境变量GOROOT(语言包)、GOPATH(工作空间目录) (2).添加path，%GOROOT%\bin;%GOPAT">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-08-11T14:55:28.414Z">
+<meta property="og:image" content="https://lospark.github.io/2019/08/11/01.环境搭建/gopath.png">
+<meta property="og:updated_time" content="2019-08-11T14:38:03.857Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="12.go语言测试">
-<meta name="twitter:description" content="1.Go程序三类测试：功能测试（test）、基准测试（benchmark，也称性能测试），以及示例测试（example）。 (1).一般情况下，一个测试源码文件只会针对于某个命令源码文件，或库源码文件（以下简称被测源码文件）做测试，所以我们总会（并且应该）把它们放在同一个代码包内。 (2).测试源码文件的主名称应该以被测源码文件的主名称为前导，并且必须以“_test”为后缀。我们可以依据这些测试">
-  <link rel="canonical" href="https://lospark.github.io/2019/08/11/12.go语言测试/">
+<meta name="twitter:title" content="01.环境搭建">
+<meta name="twitter:description" content="1.下载 go语言包 网址上输入studygolang.com，点击下载，下载golang的版本 一般是goXXX版本windows-amd64.zip包 下载后放到本地一个位置，直接解压即可，比如E:\Program Files\go   2.配置环境变量 (1).添加系统环境变量GOROOT(语言包)、GOPATH(工作空间目录) (2).添加path，%GOROOT%\bin;%GOPAT">
+<meta name="twitter:image" content="https://lospark.github.io/2019/08/11/01.环境搭建/gopath.png">
+  <link rel="canonical" href="https://lospark.github.io/2019/08/11/01.环境搭建/">
 
 
 <script id="page-configurations">
@@ -81,7 +83,7 @@
   };
 </script>
 
-  <title>12.go语言测试 | Eirunye Activity</title>
+  <title>01.环境搭建 | Eirunye Activity</title>
   
 
 
@@ -281,7 +283,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://lospark.github.io/2019/08/11/12.go语言测试/">
+    <link itemprop="mainEntityOfPage" href="https://lospark.github.io/2019/08/11/01.环境搭建/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="lospark">
@@ -295,7 +297,7 @@
       <header class="post-header">
 
         
-          <h1 class="post-title" itemprop="name headline">12.go语言测试
+          <h1 class="post-title" itemprop="name headline">01.环境搭建
 
             
           </h1>
@@ -312,7 +314,7 @@
                 
               
 
-              <time title="创建时间：2019-08-11 13:28:30 / 修改时间：14:55:28" itemprop="dateCreated datePublished" datetime="2019-08-11T13:28:30Z">2019-08-11</time>
+              <time title="创建时间：2019-08-11 13:12:42 / 修改时间：14:38:03" itemprop="dateCreated datePublished" datetime="2019-08-11T13:12:42Z">2019-08-11</time>
             </span>
           
             
@@ -352,33 +354,119 @@
 
       
         <ul>
-<li><h5 id="1-Go程序三类测试：功能测试（test）、基准测试（benchmark，也称性能测试），以及示例测试（example）。"><a href="#1-Go程序三类测试：功能测试（test）、基准测试（benchmark，也称性能测试），以及示例测试（example）。" class="headerlink" title="1.Go程序三类测试：功能测试（test）、基准测试（benchmark，也称性能测试），以及示例测试（example）。"></a>1.Go程序三类测试：功能测试（test）、基准测试（benchmark，也称性能测试），以及示例测试（example）。</h5><ul>
-<li>(1).一般情况下，一个测试源码文件只会针对于某个命令源码文件，或库源码文件（以下简称被测源码文件）做测试，所以我们总会（并且应该）把它们放在同一个代码包内。</li>
-<li>(2).测试源码文件的主名称应该以被测源码文件的主名称为前导，并且必须以“_test”为后缀。我们可以依据这些测试函数针对的不同程序实体，把它们分成不同的逻辑组，并且，利用注释以及帮助类的变量或函数来做分割。同时，我们还可以依据被测源码文件中程序实体的先后顺序，来安排测试源码文件中测试函数的顺序。</li>
+<li><h4 id="1-下载-go语言包"><a href="#1-下载-go语言包" class="headerlink" title="1.下载 go语言包"></a>1.下载 go语言包</h4><ul>
+<li>网址上输入studygolang.com，点击下载，下载golang的版本</li>
+<li>一般是goXXX版本windows-amd64.zip包</li>
+<li>下载后放到本地一个位置，直接解压即可，比如E:\Program Files\go</li>
 </ul>
 </li>
-<li><h5 id="2-Go语言对测试函数的名称和签名都有哪些规定？"><a href="#2-Go语言对测试函数的名称和签名都有哪些规定？" class="headerlink" title="2.Go语言对测试函数的名称和签名都有哪些规定？"></a>2.Go语言对测试函数的名称和签名都有哪些规定？</h5><ul>
-<li>(1).规定<ul>
-<li>①.<strong>对于功能测试函数来说，其名称必须以Test为前缀，并且参数列表中只应有一个*testing.T类型的参数声明</strong>。</li>
-<li>②.<strong>对于性能测试函数来说，其名称必须以Benchmark为前缀，并且唯一参数的类型必须是*testing.B类型的</strong>。  </li>
-<li>③.<strong>对于示例测试函数来说，其名称必须以Example为前缀，但对函数的参数列表没有强制规定</strong>。</li>
+<li><h4 id="2-配置环境变量"><a href="#2-配置环境变量" class="headerlink" title="2.配置环境变量"></a>2.配置环境变量</h4><ul>
+<li>(1).添加系统环境变量GOROOT(语言包)、GOPATH(工作空间目录)</li>
+<li>(2).添加path，%GOROOT%\bin;%GOPATH%\bin;</li>
+<li>(3).工作空间中添加3个文件夹src、bin、pkg</li>
 </ul>
 </li>
-<li>(2).go test命令执行的主要测试流程是什么？<ul>
-<li>①.只有测试源码文件的名称对了，测试函数的名称和签名也对了，当我们运行go test命令的时候，其中的测试代码才有可能被运行。</li>
-<li>②.在准备工作顺利完成之后，go test命令就会针对每个被测代码包，依次地进行构建、执行包中符合要求的测试函数，清理临时文件，打印测试结果。</li>
-<li>③.但是，为了加快测试速度，它通常会<strong>并发</strong>地对多个被测代码包进行<strong>功能测试</strong>。</li>
-<li>④.<strong>性能</strong>测试一般都是<strong>串行</strong>进行的。下一个代码包性能测试的进行，总会等到上一个代码包性能测试的结果打印完成才会开始，而且性能测试函数的执行也都会是串行的。</li>
+<li><h4 id="3-简单命令"><a href="#3-简单命令" class="headerlink" title="3.简单命令"></a>3.简单命令</h4><ul>
+<li>go version</li>
+<li>go(查看各种命令)<ul>
+<li>go run：直接运行程序</li>
+<li>go build：测试编译</li>
+<li>go fmt：格式化源码(部分idea 保存时自动调用)</li>
+<li>go install： 编译包文件并编译整个程序</li>
+<li>go test：运行测试文件</li>
+<li>go doc：查看帮助文档</li>
+<li>godoc -http=:8080(启动本地官网，输入<a href="http://localhost:8080" target="_blank" rel="noopener">http://localhost:8080</a>)</li>
 </ul>
 </li>
-<li>(3).怎样解释功能测试的测试结果？<ul>
-<li>①.命令<code>go test puzzlers/article20/q2</code>。go命令通常会缓存程序构建的结果，以便在将来的构建中重用。我们可以通过运行go env GOCACHE命令来查看缓存目录的路径。缓存的数据总是能够正确地反映出当时的各种源码文件、构建环境、编译器选项等等的真实情况。<strong>我们并不用在意缓存数据的存在，因为它们肯定不会妨碍go test命令打印正确的测试结果</strong>。</li>
 </ul>
 </li>
-<li>(4).怎样解释性能测试的测试结果？<ul>
-<li>①.命令：<code>go test -bench=. -run=^$ puzzlers/article20/q3</code></li>
-<li>②.第一个标记及其值为-bench=.，只有有了这个标记，命令才会进行性能测试。该标记的值.表明需要执行任意名称的性能测试函数</li>
-<li>③.第二个标记及其值是-run=^$，这个标记用于表明需要执行哪些功能测试函数，这同样也是以函数名称为依据的。^$是正则表达式的开头和结尾。该标记的值^$意味着：只执行名称为空的功能测试函数，换句话说，不执行任何功能测试函数。</li>
+<li><h4 id="4-程序整体结构"><a href="#4-程序整体结构" class="headerlink" title="4.程序整体结构"></a>4.程序整体结构</h4><ul>
+<li>bin/<ul>
+<li>mathapp</li>
+</ul>
+</li>
+<li>pkg/<ul>
+<li>平台名/(比如window_amd64、linux_amd64)<ul>
+<li>mymath.a(引用的包文件)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>src/<ul>
+<li>mathapp<ul>
+<li>main.go</li>
+</ul>
+</li>
+<li>mymath(引用包文件)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h4 id="5-命令使用"><a href="#5-命令使用" class="headerlink" title="5.命令使用"></a>5.命令使用</h4><ul>
+<li>运行过程分析：运行 go install 首先编译src下应用的包文件，在pkg中生成对应的.a文件，最后编译src下的main.go，在bin目录下生成.exe可执行文件。</li>
+<li>生成后.exe文件后，.exe真正运行时，需要将.exe文件重新拷贝至 src目录下(exe与src文件存在相对路径)。</li>
+</ul>
+</li>
+<li><h4 id="6-环境变量"><a href="#6-环境变量" class="headerlink" title="6.环境变量"></a>6.环境变量</h4><ul>
+<li><p>(1).三个环境变量</p>
+<ul>
+<li>GOROOT：Go语言安装根目录的路径，也就是GO语言的安装路径。</li>
+<li>GOPATH：若干工作区目录的路径。是我们自己定义的工作空间。</li>
+<li>GOBIN：GO程序生成的可执行文件（executable file）的路径。</li>
+</ul>
+</li>
+<li><p>(2). <strong>Go语言源码的组织方式</strong></p>
+<ul>
+<li><p>①.<strong>Go语言的源码也是以代码包为基本组织单位的。在文件系统中，这些代码包其实是与目录一一对应的</strong></p>
+</li>
+<li><p>②.<strong>一个代码包</strong>中可以<strong>包含任意个</strong>以.go为扩展名的源码文件，这些源码文件都需要被声明属于同一个代码包。</p>
+</li>
+<li><p>③.每个代码包都会有导入路径。代码包的导入路径是其他代码在使用该包中的程序实体时，需要引入的路径。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import &quot;github.com/labstack/echo&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>④.在工作区中，一个代码包的导入路径<strong>实际上就是从src子目录，到该包的实际存储位置的相对路径</strong>。</p>
+</li>
+<li><p>⑤.Go语言的源码文件都需要被存放在环境变量GOPATH包含的某个工作区（目录）中的src目录下的某个代码包（目录）中。</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h4 id="7-源码安装后的结果"><a href="#7-源码安装后的结果" class="headerlink" title="7.源码安装后的结果"></a>7.源码安装后的结果</h4><ul>
+<li><p>(1).源码文件通常会被放在某个工作区的src子目录下。安装后如果产生了<strong>归档文件</strong>（以“.a”为扩展名的文件，这个文件解压后是一个代码包），就会放进该工作区的pkg子目录；如果产生了可执行文件，就可能会放进该工作区的bin子目录。</p>
+</li>
+<li><p>(2).归档文件存放的具体位置和规则。</p>
+<ul>
+<li><p>①.<strong>源码文件会以代码包的形式组织起来</strong>，一个代码包其实就对应一个目录。<strong>安装某个代码包而产生的归档文件是与这个代码包同名的</strong>。</p>
+</li>
+<li><p>②.比如，一个已存在的代码包的导入路径是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">github.com/labstack/echo</span><br></pre></td></tr></table></figure>
+
+<p>那么执行命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go install github.com/labstack/echo</span><br></pre></td></tr></table></figure>
+
+<p>生成的归档文件的相对目录就是 github.com/labstack 文件名为echo.a。<br>上面这个代码包导入路径还有另外一层含义，那就是：<strong>该代码包的源码文件存在于GitHub网站的labstack组的代码仓库echo中</strong>。</p>
+</li>
+<li><p>③.归档文件的相对目录与pkg目录之间还有一级目录，叫做平台相关目录。平台相关目录的名称是由build（也称“构建”）的目标操作系统、下划线和目标计算架构的代号组成的。</p>
+<ul>
+<li>上述代码包的归档文件就会被放置在当前工作区的子目录pkg/linux_amd64/github.com/labstack中。<br><img src="/2019/08/11/01.环境搭建/gopath.png" alt="GOPATH与工作区"></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h4 id="8-构建和安装Go程序的过程"><a href="#8-构建和安装Go程序的过程" class="headerlink" title="8.构建和安装Go程序的过程"></a>8.构建和安装Go程序的过程</h4><ul>
+<li>(1).构建使用命令go build，安装使用命令go install。构建和安装代码包的时候都会执行编译、打包等操作，并且，这些操作生成的任何文件都会先被保存到某个临时的目录中。</li>
+<li>(2).构建<ul>
+<li>如果构建的是库源码文件，那么操作后产生的结果文件只会存在于临时目录中。这里的构建的主要意义在于检查和验证。</li>
+<li>如果构建的是命令源码文件，那么操作的结果文件会被搬运到源码文件所在的目录中。</li>
+</ul>
+</li>
+<li>(3).安装<ul>
+<li>安装操作会先执行构建，然后还会进行链接操作，并且把结果文件搬运到指定目录。</li>
+<li>如果安装的是库源码文件，那么结果文件会被搬运到它所在工作区的pkg目录下的某个子目录中。</li>
+<li>如果安装的是命令源码文件，那么结果文件会被搬运到它所在工作区的bin目录中，或者环境变量GOBIN指向的目录中。</li>
 </ul>
 </li>
 </ul>
@@ -409,18 +497,14 @@
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
               
-                <a href="/2019/08/11/11.错误以及处理/" rel="next" title="11.错误以及处理">
-                  <i class="fa fa-chevron-left"></i> 11.错误以及处理
-                </a>
-              
             </div>
 
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
               
-                <a href="/2019/08/11/13.库和包/" rel="prev" title="13.库和包">
-                  13.库和包 <i class="fa fa-chevron-right"></i>
+                <a href="/2019/08/11/02.Go程序的一般结构/" rel="prev" title="02.Go程序的一般结构">
+                  02.Go程序的一般结构 <i class="fa fa-chevron-right"></i>
                 </a>
               
             </div>

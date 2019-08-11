@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="generator" content="Hexo 3.9.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.3.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    save_scroll: false,
+    copycode: {"enable":true,"show_result":true,"style":null},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":true,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="1.反射reflection (1).反射可大大提高程序的灵活性，使得 interface{} 有更大的发挥余地  (2).反射使用 TypeOf 和 ValueOf 函数从接口中获取目标对象信息 1234567891011121314151617181920212223242526272829303132333435type User struct &amp;#123;  Id   int  Name">
+<meta name="keywords" content="go">
+<meta property="og:type" content="article">
+<meta property="og:title" content="05.反射、并发">
+<meta property="og:url" content="https://lospark.github.io/2019/08/11/05.反射、并发/index.html">
+<meta property="og:site_name" content="Eirunye Activity">
+<meta property="og:description" content="1.反射reflection (1).反射可大大提高程序的灵活性，使得 interface{} 有更大的发挥余地  (2).反射使用 TypeOf 和 ValueOf 函数从接口中获取目标对象信息 1234567891011121314151617181920212223242526272829303132333435type User struct &amp;#123;  Id   int  Name">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-08-11T14:44:37.558Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="05.反射、并发">
+<meta name="twitter:description" content="1.反射reflection (1).反射可大大提高程序的灵活性，使得 interface{} 有更大的发挥余地  (2).反射使用 TypeOf 和 ValueOf 函数从接口中获取目标对象信息 1234567891011121314151617181920212223242526272829303132333435type User struct &amp;#123;  Id   int  Name">
+  <link rel="canonical" href="https://lospark.github.io/2019/08/11/05.反射、并发/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>05.反射、并发 | Eirunye Activity</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  <div class="container sidebar-position-left">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Eirunye Activity</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Lospark的博客</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">1</span></a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">2</span></a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">13</span></a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-schedule">
+      
+    
+      
+    
+
+    <a href="/schedule/" rel="section"><i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>日程表</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+</nav>
+  <div class="site-search">
+    
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+  </div>
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://lospark.github.io/2019/08/11/05.反射、并发/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lospark">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/head.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Eirunye Activity">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">05.反射、并发
+
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-08-11 13:24:50 / 修改时间：14:44:37" itemprop="dateCreated datePublished" datetime="2019-08-11T13:24:50Z">2019-08-11</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/01-Golang/" itemprop="url" rel="index"><span itemprop="name">01.Golang</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/01-Golang/01-基础模块/" itemprop="url" rel="index"><span itemprop="name">01.基础模块</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <ul>
+<li><h5 id="1-反射reflection"><a href="#1-反射reflection" class="headerlink" title="1.反射reflection"></a>1.反射reflection</h5><ul>
+<li><p>(1).反射可大大提高程序的灵活性，使得 interface{} 有更大的发挥余地</p>
+</li>
+<li><p>(2).反射使用 TypeOf 和 ValueOf 函数从接口中获取目标对象信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">type User struct &#123;</span><br><span class="line">  Id   int</span><br><span class="line">  Name string</span><br><span class="line">  Age  int</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func (u User) Hello() &#123;</span><br><span class="line">  fmt.Println(&quot;hello world&quot;)</span><br><span class="line">&#125;</span><br><span class="line">func Info(o interface&#123;&#125;) &#123;</span><br><span class="line">  t := reflect.TypeOf(o)</span><br><span class="line">  fmt.Println(&quot;Type&quot;, t.Name())</span><br><span class="line"></span><br><span class="line">  v := reflect.ValueOf(o)</span><br><span class="line">  fmt.Println(&quot;feilds:&quot;)</span><br><span class="line"></span><br><span class="line">  for i := 0; i &lt; t.NumField(); i++ &#123;</span><br><span class="line">    f := t.Field(i)</span><br><span class="line">    value := v.Field(i).Interface()</span><br><span class="line">    fmt.Printf(&quot;%6s: %v = %v\n&quot;, f.Name, f.Type, value)</span><br><span class="line">  &#125;</span><br><span class="line">  fmt.Println(&quot;method:&quot;)</span><br><span class="line">  for i := 0; i &lt; t.NumMethod(); i++ &#123;</span><br><span class="line">    m := t.Method(i)</span><br><span class="line">    fmt.Printf(&quot;%6s: %v\n&quot;, m.Name, m.Type)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">func main() &#123;</span><br><span class="line">  a := User&#123;</span><br><span class="line">    Id:   15,</span><br><span class="line">    Name: &quot;java&quot;,</span><br><span class="line">    Age:  25,</span><br><span class="line">  &#125;</span><br><span class="line">  Info(a)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>(3).注意，在接口不能使用指针，<strong>如果要使用指正，首先通过reflect.Pro去判断，其次ValueOf返回后的变量需要取Elem方法</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">func Set(o interface&#123;&#125;) &#123;</span><br><span class="line">  v := reflect.ValueOf(o)</span><br><span class="line">  //这里reflect的类型有Struct、Prt、String等</span><br><span class="line">  if v.Kind() == reflect.Ptr &amp;&amp; !v.Elem().CanSet() &#123;</span><br><span class="line">    fmt.Println(&quot;XXX&quot;)</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    v = v.Elem()</span><br><span class="line">  &#125;</span><br><span class="line">  f := v.FieldByName(&quot;Name&quot;)</span><br><span class="line">  if !f.IsValid() &#123;</span><br><span class="line">    fmt.Println(&quot;Bad&quot;)</span><br><span class="line">    return</span><br><span class="line">  &#125;</span><br><span class="line">  if f.Kind() == reflect.String &#123;</span><br><span class="line">    f.SetString(&quot;hfeh&quot;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>(4).通过指针操作字段(基本数据类型的操作)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">x := 123</span><br><span class="line">v := reflect.ValueOf(&amp;x)</span><br><span class="line">v.Elem().SetInt(15154)</span><br><span class="line">fmt.Println(x)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>(5).通过反射可以“动态”调用方法 </p>
+</li>
+<li><p>(6).反射会将匿名字段作为独立字段（匿名字段本质）</p>
+</li>
+<li><p>(7).想要利用反射修改对象状态，前提是 interface.data 是 settable， 即 pointer-interface</p>
+</li>
+</ul>
+</li>
+<li><h5 id="2-并发编程"><a href="#2-并发编程" class="headerlink" title="2.并发编程"></a>2.并发编程</h5><ul>
+<li><p>(1).<strong>Goroutine 奉行一个原则：通过通信来共享内存，而不是共享内存来通信!!!</strong>。</p>
+</li>
+<li><p>(2).Channel</p>
+<ul>
+<li><p>①.Channel 是 goroutine 沟通的桥梁，大都是阻塞同步的</p>
+</li>
+<li><p>②.Channel 是引用类型，通过 make 创建，close 关闭，可以使用 for range 来迭代不断操作 channel</p>
+<ul>
+<li>定义的格式：make(chan channel的类型，缓存的大小)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">func main() &#123;</span><br><span class="line">  c := make(chan bool)</span><br><span class="line">  go func() &#123;</span><br><span class="line">    fmt.Println(&quot;GO GO GO !!!&quot;)</span><br><span class="line">    //往channel中存入一个变量true</span><br><span class="line">    c &lt;- true</span><br><span class="line">    //关闭</span><br><span class="line">    close(c)</span><br><span class="line">  &#125;()</span><br><span class="line">  //for range会进行等待，必须在某个地方关闭channel</span><br><span class="line">  for v := range c &#123;</span><br><span class="line">    fmt.Println(v)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>③.可以设置单向或双向通道</p>
+<ul>
+<li>直接make是单向通道，又可以存，又可以取</li>
+</ul>
+</li>
+<li><p>④.可以设置缓存大小，在未被填满前不会发生阻塞</p>
+<ul>
+<li><p>有缓存的情况下类似 LinkedBlockingQueue</p>
+<ul>
+<li><p>有缓存它是异步的，没有缓存它是同步阻塞的，但也不是绝对的，比如以下例子</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">import (</span><br><span class="line">  &quot;fmt&quot;</span><br><span class="line">  &quot;runtime&quot;</span><br><span class="line">)</span><br><span class="line">func main() &#123;</span><br><span class="line">  //说明是启动了多线程</span><br><span class="line">  runtime.GOMAXPROCS(runtime.NumCPU())</span><br><span class="line">  c := make(chan bool, 10)</span><br><span class="line">  for i := 0; i &lt; 10; i++ &#123;</span><br><span class="line">    go Go(i, c)</span><br><span class="line">  &#125;</span><br><span class="line">  //这里类似countDownlatch</span><br><span class="line">  for i := 0; i &lt; 10; i++ &#123;</span><br><span class="line">    &lt;-c</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">func Go(num int, c chan bool) &#123;</span><br><span class="line">  a := 1</span><br><span class="line">  for i := 0; i &lt; 10; i++ &#123;</span><br><span class="line">    a += i</span><br><span class="line">  &#125;</span><br><span class="line">  fmt.Println(num, a)</span><br><span class="line">  c &lt;- true</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>第二种写法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">func main() &#123;</span><br><span class="line">  runtime.GOMAXPROCS(runtime.NumCPU())</span><br><span class="line">  wg := sync.WaitGroup&#123;&#125;</span><br><span class="line">  wg.Add(10)</span><br><span class="line">  c := make(chan bool, 10)</span><br><span class="line">  for i := 0; i &lt; 10; i++ &#123;</span><br><span class="line">    go Go(&amp;wg, c, i)</span><br><span class="line">  &#125;</span><br><span class="line">  wg.Wait()</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">func Go(wg *sync.WaitGroup, c chan bool, num int) &#123;</span><br><span class="line">  a := 1</span><br><span class="line">  for i := 0; i &lt; 10; i++ &#123;</span><br><span class="line">    a += i</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  fmt.Println(num, a)</span><br><span class="line">  wg.Done()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>没有缓存的情况下，类似TransferQueue</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">func main() &#123;</span><br><span class="line">  //c是一个没有缓存的channel，类似TransferQueue</span><br><span class="line">  c := make(chan bool)</span><br><span class="line">  go func() &#123;</span><br><span class="line">    fmt.Println(&quot;GO GO GO !!!&quot;)</span><br><span class="line">    c &lt;- true</span><br><span class="line">  &#125;()</span><br><span class="line">   //这里取出操作&lt;-会一直阻塞，直到别的线程往里面存入了东西</span><br><span class="line">  fmt.Println(&lt;-c)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>(3).Select</p>
+<ul>
+<li>可处理一个或多个 channel 的发送与接收</li>
+<li>同时有多个可用的 channel时按随机顺序处理</li>
+<li>可用空的 select 来阻塞 main 函数</li>
+<li>可设置超时</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/go/" rel="tag"># go</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/08/11/04.函数/" rel="next" title="04.函数">
+                  <i class="fa fa-chevron-left"></i> 04.函数
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2019/08/11/06.变量作用域/" rel="prev" title="06.变量作用域">
+                  06.变量作用域 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/head.jpg"
+      alt="lospark">
+  <p class="site-author-name" itemprop="name">lospark</p>
+  <div class="site-description motion-element" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+      
+        
+      
+        <a href="https://github.com/lospark" title="GitHub &rarr; https://github.com/lospark" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+      
+        
+      
+        <a href="mailto:786834592@qq.com" title="E-Mail &rarr; mailto:786834592@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i></a>
+      </span>
+    
+  </div>
+
+
+
+        </div>
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lospark</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.3.0</div>
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+
+    
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+<script src="/js/utils.js?v=7.3.0"></script>
+  <script src="/js/motion.js?v=7.3.0"></script>
+
+
+  <script src="/js/affix.js?v=7.3.0"></script>
+  <script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.3.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script>
+<script src="/js/post-details.js?v=7.3.0"></script>
+
+
+</body>
+</html>
