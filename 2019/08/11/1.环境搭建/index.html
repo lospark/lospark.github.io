@@ -55,28 +55,35 @@
   };
 </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Eirunye Activity">
-<meta property="og:url" content="https://lospark.github.io/index.html">
+  <meta name="description" content="1.下载 go语言包 网址上输入studygolang.com，点击下载，下载golang的版本 一般是goXXX版本windows-amd64.zip包 下载后放到本地一个位置，直接解压即可，比如E:\Program Files\go   2.配置环境变量 (1).添加系统环境变量GOROOT(语言包)、GOPATH(工作空间目录) (2).添加path，%GOROOT%\bin;%GOPAT">
+<meta name="keywords" content="go">
+<meta property="og:type" content="article">
+<meta property="og:title" content="1.环境搭建">
+<meta property="og:url" content="https://lospark.github.io/2019/08/11/1.环境搭建/index.html">
 <meta property="og:site_name" content="Eirunye Activity">
+<meta property="og:description" content="1.下载 go语言包 网址上输入studygolang.com，点击下载，下载golang的版本 一般是goXXX版本windows-amd64.zip包 下载后放到本地一个位置，直接解压即可，比如E:\Program Files\go   2.配置环境变量 (1).添加系统环境变量GOROOT(语言包)、GOPATH(工作空间目录) (2).添加path，%GOROOT%\bin;%GOPAT">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://lospark.github.io/2019/08/11/1.环境搭建/gopath.png">
+<meta property="og:updated_time" content="2019-08-11T05:14:37.315Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Eirunye Activity">
-  <link rel="canonical" href="https://lospark.github.io/">
+<meta name="twitter:title" content="1.环境搭建">
+<meta name="twitter:description" content="1.下载 go语言包 网址上输入studygolang.com，点击下载，下载golang的版本 一般是goXXX版本windows-amd64.zip包 下载后放到本地一个位置，直接解压即可，比如E:\Program Files\go   2.配置环境变量 (1).添加系统环境变量GOROOT(语言包)、GOPATH(工作空间目录) (2).添加path，%GOROOT%\bin;%GOPAT">
+<meta name="twitter:image" content="https://lospark.github.io/2019/08/11/1.环境搭建/gopath.png">
+  <link rel="canonical" href="https://lospark.github.io/2019/08/11/1.环境搭建/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome: true,
-    isPost: false,
+    isHome: false,
+    isPost: true,
     isPage: false,
     isArchive: false
   };
 </script>
 
-  <title>Eirunye Activity</title>
+  <title>1.环境搭建 | Eirunye Activity</title>
   
 
 
@@ -265,10 +272,11 @@
         <div class="content-wrap">
             
 
-          <div id="content" class="content page-home">
+          <div id="content" class="content page-post-detail">
             
-  <section id="posts" class="posts-expand">
-      
+
+  <div id="posts" class="posts-expand">
+    
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
@@ -289,9 +297,8 @@
       <header class="post-header">
 
         
-          <h1 class="post-title" itemprop="name headline">
-              
-              <a href="/2019/08/11/1.环境搭建/" class="post-title-link" itemprop="url">1.环境搭建</a>
+          <h1 class="post-title" itemprop="name headline">1.环境搭建
+
             
           </h1>
         
@@ -346,49 +353,162 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          
-            <p>
-              
-1.下载 go语言包
-网址上输入studygolang.com，点击下载，下载golang的版本
-一般是goXXX版本windows-amd64.zip包
-下载后放到本地一个位置，直接解压即可，比如E:\Program Files\go
+        <ul>
+<li><h4 id="1-下载-go语言包"><a href="#1-下载-go语言包" class="headerlink" title="1.下载 go语言包"></a>1.下载 go语言包</h4><ul>
+<li>网址上输入studygolang.com，点击下载，下载golang的版本</li>
+<li>一般是goXXX版本windows-amd64.zip包</li>
+<li>下载后放到本地一个位置，直接解压即可，比如E:\Program Files\go</li>
+</ul>
+</li>
+<li><h4 id="2-配置环境变量"><a href="#2-配置环境变量" class="headerlink" title="2.配置环境变量"></a>2.配置环境变量</h4><ul>
+<li>(1).添加系统环境变量GOROOT(语言包)、GOPATH(工作空间目录)</li>
+<li>(2).添加path，%GOROOT%\bin;%GOPATH%\bin;</li>
+<li>(3).工作空间中添加3个文件夹src、bin、pkg</li>
+</ul>
+</li>
+<li><h4 id="3-简单命令"><a href="#3-简单命令" class="headerlink" title="3.简单命令"></a>3.简单命令</h4><ul>
+<li>go version</li>
+<li>go(查看各种命令)<ul>
+<li>go run：直接运行程序</li>
+<li>go build：测试编译</li>
+<li>go fmt：格式化源码(部分idea 保存时自动调用)</li>
+<li>go install： 编译包文件并编译整个程序</li>
+<li>go test：运行测试文件</li>
+<li>go doc：查看帮助文档</li>
+<li>godoc -http=:8080(启动本地官网，输入<a href="http://localhost:8080" target="_blank" rel="noopener">http://localhost:8080</a>)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h4 id="4-程序整体结构"><a href="#4-程序整体结构" class="headerlink" title="4.程序整体结构"></a>4.程序整体结构</h4><ul>
+<li>bin/<ul>
+<li>mathapp</li>
+</ul>
+</li>
+<li>pkg/<ul>
+<li>平台名/(比如window_amd64、linux_amd64)<ul>
+<li>mymath.a(引用的包文件)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>src/<ul>
+<li>mathapp<ul>
+<li>main.go</li>
+</ul>
+</li>
+<li>mymath(引用包文件)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h4 id="5-命令使用"><a href="#5-命令使用" class="headerlink" title="5.命令使用"></a>5.命令使用</h4><ul>
+<li>运行过程分析：运行 go install 首先编译src下应用的包文件，在pkg中生成对应的.a文件，最后编译src下的main.go，在bin目录下生成.exe可执行文件。</li>
+<li>生成后.exe文件后，.exe真正运行时，需要将.exe文件重新拷贝至 src目录下(exe与src文件存在相对路径)。</li>
+</ul>
+</li>
+<li><h4 id="6-环境变量"><a href="#6-环境变量" class="headerlink" title="6.环境变量"></a>6.环境变量</h4><ul>
+<li><p>(1).三个环境变量</p>
+<ul>
+<li>GOROOT：Go语言安装根目录的路径，也就是GO语言的安装路径。</li>
+<li>GOPATH：若干工作区目录的路径。是我们自己定义的工作空间。</li>
+<li>GOBIN：GO程序生成的可执行文件（executable file）的路径。</li>
+</ul>
+</li>
+<li><p>(2). <strong>Go语言源码的组织方式</strong></p>
+<ul>
+<li><p>①.<strong>Go语言的源码也是以代码包为基本组织单位的。在文件系统中，这些代码包其实是与目录一一对应的</strong></p>
+</li>
+<li><p>②.<strong>一个代码包</strong>中可以<strong>包含任意个</strong>以.go为扩展名的源码文件，这些源码文件都需要被声明属于同一个代码包。</p>
+</li>
+<li><p>③.每个代码包都会有导入路径。代码包的导入路径是其他代码在使用该包中的程序实体时，需要引入的路径。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import &quot;github.com/labstack/echo&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>④.在工作区中，一个代码包的导入路径<strong>实际上就是从src子目录，到该包的实际存储位置的相对路径</strong>。</p>
+</li>
+<li><p>⑤.Go语言的源码文件都需要被存放在环境变量GOPATH包含的某个工作区（目录）中的src目录下的某个代码包（目录）中。</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h4 id="7-源码安装后的结果"><a href="#7-源码安装后的结果" class="headerlink" title="7.源码安装后的结果"></a>7.源码安装后的结果</h4><ul>
+<li><p>(1).源码文件通常会被放在某个工作区的src子目录下。安装后如果产生了<strong>归档文件</strong>（以“.a”为扩展名的文件，这个文件解压后是一个代码包），就会放进该工作区的pkg子目录；如果产生了可执行文件，就可能会放进该工作区的bin子目录。</p>
+</li>
+<li><p>(2).归档文件存放的具体位置和规则。</p>
+<ul>
+<li><p>①.<strong>源码文件会以代码包的形式组织起来</strong>，一个代码包其实就对应一个目录。<strong>安装某个代码包而产生的归档文件是与这个代码包同名的</strong>。</p>
+</li>
+<li><p>②.比如，一个已存在的代码包的导入路径是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">github.com/labstack/echo</span><br></pre></td></tr></table></figure>
 
+<p>那么执行命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go install github.com/labstack/echo</span><br></pre></td></tr></table></figure>
 
-2.配置环境变量
-(1).添加系统环境变量GOROOT(
-              ...
-            </p>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2019/08/11/1.环境搭建/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
+<p>生成的归档文件的相对目录就是 github.com/labstack 文件名为echo.a。<br>上面这个代码包导入路径还有另外一层含义，那就是：<strong>该代码包的源码文件存在于GitHub网站的labstack组的代码仓库echo中</strong>。</p>
+</li>
+<li><p>③.归档文件的相对目录与pkg目录之间还有一级目录，叫做平台相关目录。平台相关目录的名称是由build（也称“构建”）的目标操作系统、下划线和目标计算架构的代号组成的。</p>
+<ul>
+<li>上述代码包的归档文件就会被放置在当前工作区的子目录pkg/linux_amd64/github.com/labstack中。<br><img src="//lospark.github.io/2019/08/11/1.环境搭建/gopath.png" alt="GOPATH与工作区"></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h4 id="8-构建和安装Go程序的过程"><a href="#8-构建和安装Go程序的过程" class="headerlink" title="8.构建和安装Go程序的过程"></a>8.构建和安装Go程序的过程</h4><ul>
+<li>(1).构建使用命令go build，安装使用命令go install。构建和安装代码包的时候都会执行编译、打包等操作，并且，这些操作生成的任何文件都会先被保存到某个临时的目录中。</li>
+<li>(2).构建<ul>
+<li>如果构建的是库源码文件，那么操作后产生的结果文件只会存在于临时目录中。这里的构建的主要意义在于检查和验证。</li>
+<li>如果构建的是命令源码文件，那么操作的结果文件会被搬运到源码文件所在的目录中。</li>
+</ul>
+</li>
+<li>(3).安装<ul>
+<li>安装操作会先执行构建，然后还会进行链接操作，并且把结果文件搬运到指定目录。</li>
+<li>如果安装的是库源码文件，那么结果文件会被搬运到它所在工作区的pkg目录下的某个子目录中。</li>
+<li>如果安装的是命令源码文件，那么结果文件会被搬运到它所在工作区的bin目录中，或者环境变量GOBIN指向的目录中。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
     </div>
 
     
     
     
-      <footer class="post-footer">
-          <div class="post-eof"></div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center;">
+  <img id="wechat_subscriber_qcode" src="/" alt="lospark wechat" style="width: 200px; max-width: 100%;">
+  <div></div>
+</div>
+
+      
         
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/go/" rel="tag"># go</a>
+            
+          </div>
+        
+
+        
+
       </footer>
+    
   </div>
   
   
   
   </article>
 
-    
-  </section>
-
-  
+  </div>
 
 
           </div>
@@ -584,10 +704,6 @@
   
 
   
-    
-      
-    
-  
 
   
 
@@ -595,5 +711,9 @@
 
 
   
+  <script src="/js/scrollspy.js?v=7.3.0"></script>
+<script src="/js/post-details.js?v=7.3.0"></script>
+
+
 </body>
 </html>
