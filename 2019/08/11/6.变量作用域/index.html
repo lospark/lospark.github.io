@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="generator" content="Hexo 3.9.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.3.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    save_scroll: false,
+    copycode: {"enable":true,"show_result":true,"style":null},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":true,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="1. 库源码文件 (1).代码包声明的基本规则 ①.第一条规则，同目录下的源码文件的代码包声明语句要一致。也就是说，它们要同属于一个代码包。这对于所有源码文件都是适用的。 代码包指的是：文件开头package 关键字后面的代码包声明 如果目录中有命令源码文件，那么其他种类的源码文件也应该声明属于main包。这也是我们能够成功构建和运行它们的前提。   ②.第二条规则，源码文件声明的代码包的名称可">
+<meta name="keywords" content="go">
+<meta property="og:type" content="article">
+<meta property="og:title" content="6.变量作用域">
+<meta property="og:url" content="https://lospark.github.io/2019/08/11/6.变量作用域/index.html">
+<meta property="og:site_name" content="Eirunye Activity">
+<meta property="og:description" content="1. 库源码文件 (1).代码包声明的基本规则 ①.第一条规则，同目录下的源码文件的代码包声明语句要一致。也就是说，它们要同属于一个代码包。这对于所有源码文件都是适用的。 代码包指的是：文件开头package 关键字后面的代码包声明 如果目录中有命令源码文件，那么其他种类的源码文件也应该声明属于main包。这也是我们能够成功构建和运行它们的前提。   ②.第二条规则，源码文件声明的代码包的名称可">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://lospark.github.io/2019/08/11/6.变量作用域/img1.png">
+<meta property="og:image" content="https://lospark.github.io/2019/08/11/6.变量作用域/img2.png">
+<meta property="og:image" content="https://lospark.github.io/2019/08/11/6.变量作用域/img3.png">
+<meta property="og:image" content="https://lospark.github.io/2019/08/11/6.变量作用域/img4.png">
+<meta property="og:updated_time" content="2019-08-11T05:42:28.907Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="6.变量作用域">
+<meta name="twitter:description" content="1. 库源码文件 (1).代码包声明的基本规则 ①.第一条规则，同目录下的源码文件的代码包声明语句要一致。也就是说，它们要同属于一个代码包。这对于所有源码文件都是适用的。 代码包指的是：文件开头package 关键字后面的代码包声明 如果目录中有命令源码文件，那么其他种类的源码文件也应该声明属于main包。这也是我们能够成功构建和运行它们的前提。   ②.第二条规则，源码文件声明的代码包的名称可">
+<meta name="twitter:image" content="https://lospark.github.io/2019/08/11/6.变量作用域/img1.png">
+  <link rel="canonical" href="https://lospark.github.io/2019/08/11/6.变量作用域/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>6.变量作用域 | Eirunye Activity</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  <div class="container sidebar-position-left">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Eirunye Activity</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Lospark的博客</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">1</span></a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">14</span></a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">13</span></a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-schedule">
+      
+    
+      
+    
+
+    <a href="/schedule/" rel="section"><i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>日程表</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+</nav>
+  <div class="site-search">
+    
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+  </div>
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://lospark.github.io/2019/08/11/6.变量作用域/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lospark">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/head.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Eirunye Activity">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">6.变量作用域
+
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-08-11 13:25:17 / 修改时间：05:42:28" itemprop="dateCreated datePublished" datetime="2019-08-11T13:25:17Z">2019-08-11</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/1-Golang/" itemprop="url" rel="index"><span itemprop="name">1.Golang</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/1-Golang/6-变量作用域/" itemprop="url" rel="index"><span itemprop="name">6.变量作用域</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <ul>
+<li><h5 id="1-库源码文件"><a href="#1-库源码文件" class="headerlink" title="1. 库源码文件"></a>1. 库源码文件</h5><ul>
+<li>(1).代码包声明的基本规则<ul>
+<li>①.第一条规则，<strong>同目录下的源码文件的代码包声明语句要一致</strong>。也就是说，它们要同属于一个代码包。这对于所有源码文件都是适用的。<ul>
+<li>代码包指的是：文件开头package 关键字后面的代码包声明</li>
+<li><strong>如果目录中有命令源码文件，那么其他种类的源码文件也应该声明属于main包</strong>。这也是我们能够成功构建和运行它们的前提。</li>
+</ul>
+</li>
+<li>②.第二条规则，<strong>源码文件声明的代码包的名称可以与其所在的目录的名称不同</strong>。在针对代码包进行构建时，生成的结果文件的主名称与其父目录的名称一致。<ul>
+<li>对于命令源码文件而言，<strong>构建生成的可执行文件的主名称会与其父目录的名称相同。也可以通过<code>go build -o 指定名称</code></strong></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>(2).大白话：<strong>import的时候，根据相对路径引入目标目录下的文件；方法调用的时候，使用代码包声明进行调用</strong>。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">package 代码包声明</span><br><span class="line">import (</span><br><span class="line">  ....</span><br><span class="line">  //github.com...指的是相对路径，表示引入相对路径下(相对于GOPATH)的文件</span><br><span class="line">  &quot;github.com/keegancsmith/rpc&quot;</span><br><span class="line">  ...</span><br><span class="line"></span><br><span class="line">)</span><br><span class="line">//假如github.com/keegancsmith/rpc下的文件代码包声明为 rpc</span><br><span class="line">//方法调用，必须是大写开头</span><br><span class="line">rpc.Xxxx</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><h5 id="2-Go语言中的程序实体"><a href="#2-Go语言中的程序实体" class="headerlink" title="2.Go语言中的程序实体"></a>2.Go语言中的程序实体</h5><ul>
+<li><p>(1).包括变量、常量、函数、结构体和接口</p>
+</li>
+<li><p>(2).除了<code>var name string</code>之外，声明变量还有几种方式？需要知道两点：一个是Go语言中的类型推断，以及它在代码中的基本体现，另一个是短变量声明的用法。</p>
+<ul>
+<li><p>①.第一种方式：<code>var name = *flag.String(&quot;name&quot;, &quot;everyone&quot;, &quot;The greeting object.&quot;)</code>  类型*string代表的是字符串的指针类型，而不是字符串类型。<strong>代码在声明变量name的同时，还为它赋了值，而这时声明中并没有显式指定name的类型</strong>。</p>
+</li>
+<li><p>②.第二种方式：<code>name := *flag.String(&quot;name&quot;, &quot;everyone&quot;, &quot;The greeting object.&quot;)</code>。实际上就是Go语言的类型推断再加上一点点语法糖。<strong>我们只能在函数体内部使用短变量声明。在编写if、for或switch语句的时候，我们经常把它安插在初始化子句中，并用来声明一些临时的变量</strong>。而相比之下，第一种方式更加通用，它可以被用在任何地方。<br><img src="//lospark.github.io/2019/08/11/6.变量作用域/img1.png" alt="image.png"></p>
+</li>
+<li><p>③.类型推断是一种编程语言在编译期自动解释表达式类型的能力(表达式类型就是对表达式进行求值后得到结果的类型)。</p>
+</li>
+<li><p>④.Go语言的类型推断可以带来哪些好处？体现在我们写代码之后的那些事情上，比如<strong>代码重构</strong>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line">import (</span><br><span class="line">  &quot;flag&quot;</span><br><span class="line">  &quot;fmt&quot;</span><br><span class="line">)</span><br><span class="line">func main() &#123;</span><br><span class="line">  var name = getTheFlag()</span><br><span class="line">  flag.Parse()</span><br><span class="line">  fmt.Printf(&quot;Hello, %v!\n&quot;, *name)</span><br><span class="line">&#125;</span><br><span class="line">func getTheFlag() *string &#123;</span><br><span class="line">  return flag.String(&quot;name&quot;, &quot;everyone&quot;, &quot;The greeting object.&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>我们可以用getTheFlag函数包裹（或者说包装）那个对flag.String函数的调用，并把其结果直接作为getTheFlag函数的结果，结果的类型是*string。<strong>这样一来，var name =右边的表达式，可以变为针对getTheFlag函数的调用表达式了。这实际上是对“声明并赋值name变量的那行代码”的重构。</strong></li>
+<li>我们通常把不改变某个程序与外界的任何交互方式和规则，而只改变其内部实现”的代码修改方式，叫做对该程序的重构。</li>
+<li>你可以随意改变getTheFlag函数的内部实现，及其返回结果的类型，而不用修改main函数中的任何代码。</li>
+<li>我们不显式地指定变量name的类型，使得它可以被赋予任何类型的值。<strong>也就是说，变量name的类型可以在其初始化时，由其他程序动态地确定</strong>。</li>
+<li>没错，通过这种类型推断，你可以体验到动态类型编程语言所带来的一部分优势，即程序灵活性的明显提升。Go语言的类型推断可以明显提升程序的灵活性，使得代码重构变得更加容易，同时又不会给代码的维护带来额外负担（实际上，它恰恰可以避免散弹式的代码修改），更不会损失程序的运行效率。</li>
+</ul>
+</li>
+<li><p>⑤.变量的重声明是什么意思?</p>
+<ul>
+<li>这涉及了短变量声明。通过使用它，我们可以对同一个代码块中的变量进行重声明。<ul>
+<li>在Go语言中，代码块一般就是一个由花括号括起来的区域，里面可以包含表达式和语句。Go语言本身以及我们编写的代码共同形成了一个非常大的代码块，也叫全域代码块。</li>
+<li>这主要体现在，只要是公开的全局变量，都可以被任何代码所使用。相对小一些的代码块是代码包，一个代码包可以包含许多子代码包，所以这样的代码块也可以很大。</li>
+<li>接下来，每个源码文件也都是一个代码块，每个函数也是一个代码块，每个if语句、for语句、switch语句和select语句都是一个代码块。甚至，switch或select语句中的case子句也都是独立的代码块。</li>
+</ul>
+</li>
+<li>变量重声明：其含义是对已经声明过的变量再次声明。变量重声明的前提条件如下：<ul>
+<li>由于变量的类型在其初始化时就已经确定了，所以对它再次声明时赋予的类型必须与其原本的类型相同，否则会产生编译错误。</li>
+<li>变量的重声明只可能发生在某一个代码块中。</li>
+<li>变量的重声明只有在使用短变量声明时才会发生，否则也无法通过编译。</li>
+<li>被“声明并赋值”的变量必须是多个，并且其中至少有一个是新的变量<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var err error</span><br><span class="line">n, err := io.WriteString(os.Stdout, &quot;Hello, everyone!\n&quot;)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>(3).<strong>程序实体的作用域</strong></p>
+<ul>
+<li><p>①.程序实体的访问权限有三种：<strong>包级私有的、模块级私有的和公开的。</strong>这其实就是Go语言在语言层面，依据代码块对程序实体作用域进行的定义。</p>
+<ul>
+<li><strong>包级私有和模块级私有访问权限对应的都是代码包代码块，公开的访问权限对应的是全域代码块</strong>。然而，这个颗粒度是比较粗的，我们往往需要利用代码块再细化程序实体的作用域。</li>
+<li><strong>重要的：一个程序实体的作用域总是会被限制在某个代码块中，而这个作用域最大的用处，就是对程序实体的访问权限的控制。对“高内聚，低耦合”这种程序设计思想的实践，恰恰可以从这里开始。</strong></li>
+</ul>
+</li>
+<li><p>②.如果一个变量与其外层代码块中的变量重名会出现什么状况？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var block = &quot;package&quot;</span><br><span class="line">func main() &#123;</span><br><span class="line">  block := &quot;function&quot;</span><br><span class="line">  &#123;</span><br><span class="line">    block := &quot;inner&quot;</span><br><span class="line">    fmt.Printf(&quot;The block is %s.\n&quot;, block)</span><br><span class="line">  &#125;</span><br><span class="line">  fmt.Printf(&quot;The block is %s.\n&quot;, block)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>运行结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">The block is inner.</span><br><span class="line">The block is function.</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>引用变量时如何选择：</p>
+<ul>
+<li>首先，<strong>代码引用变量的时候总会最优先查找当前代码块中的那个变量</strong>。注意，这里的“当前代码块”仅仅是引用变量的代码所在的那个代码块，并不包含任何子代码块。</li>
+<li>其次，如果当前代码块中没有声明以此为名的变量，那么程序会沿着代码块的嵌套关系，<strong>从直接包含当前代码块的那个代码块开始，一层一层地查找</strong></li>
+<li>一般情况下，程序会一直查到当前代码包代表的代码块。如果仍然找不到，那么Go语言的编译器就会报错了</li>
+</ul>
+</li>
+<li><p>③.不同代码块中的重名变量与变量重声明中的变量区别到底在哪儿？</p>
+<ul>
+<li>变量重声明中的变量一定是在某一个代码块内的。注意，这里的“某一个代码块内”并不包含它的任何子代码块，否则就变成了“多个代码块之间”。而可重名变量指的正是在多个代码块之间由相同的标识符代表的变量。</li>
+<li>变量重声明是对同一个变量的多次声明，这里的变量只有一个。而可重名变量中涉及的变量肯定是有多个的。</li>
+<li>不论对变量重声明多少次，其类型必须始终一致，具体遵从它第一次被声明时给定的类型。而可重名变量之间不存在类似的限制，它们的类型可以是任意的。</li>
+<li>如果可重名变量所在的代码块之间，存在直接或间接的嵌套关系，那么它们之间一定会存在“屏蔽”的现象。但是这种现象绝对不会在变量重声明的场景下出现。<br><img src="//lospark.github.io/2019/08/11/6.变量作用域/img2.png" alt="image.png"></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>(4).<strong>怎样判断一个变量的类型</strong>？</p>
+<ul>
+<li>①.value, ok := interface{}(container).([]string)<ul>
+<li><strong>类型断言表达式的语法形式是x.(T)</strong>，其中的x代表要被判断类型的值。这个值当下的类型必须是接口类型的，不过具体是哪个接口类型其实是无所谓的。</li>
+<li>interface{}(container)：把container变量的值转换为空接口值</li>
+<li>.([]string)：判断前者的类型是否为切片类型 []string。</li>
+<li>变量ok是布尔（bool）类型的，它将代表类型判断的结果，true或false。</li>
+<li>如果是true，那么被判断的值将会被自动转换为[]string类型的值，并赋给变量value，否则value将被赋予nil（即“空”）。</li>
+<li>如果没有ok，判断为false时，会发生异常，panic<br><img src="//lospark.github.io/2019/08/11/6.变量作用域/img3.png" alt="image.png"></li>
+</ul>
+</li>
+<li>②.interface{}代表空接口，任何类型都是它的实现类型。interface{}(x)。<ul>
+<li>为什么在关键字interface的右边还要加上这个东西？</li>
+<li>对不包裹任何东西的花括号，<strong>除了可以代表空的代码块之外，还可以用于表示不包含任何内容的数据结构（或者说数据类型）</strong>。对于一些集合类的数据类型来说，<strong>{}还可以用来表示其值不包含任何元素，比如空的切片值[]string{}，以及空的字典值map[int]string{}</strong>。</li>
+</ul>
+</li>
+<li>③.<strong>类型转换表达式：T(x)</strong>。<ul>
+<li>其中的x可以是一个变量，也可以是一个代表值的字面量（比如1.23和struct{}），还可以是一个表达式。在这个上下文中，<strong>x可以被叫做源值，它的类型就是源类型，而那个T代表的类型就是目标类型</strong>。如果从源类型到目标类型的转换是不合法的，那么就会引发一个编译错误。那怎样才算合法？</li>
+<li><strong>首先，对于整数类型值、整数常量之间的类型转换，原则上只要源值在目标类型的可表示范围内就是合法的</strong>。当整数值的类型的有效范围由宽变窄时，<strong>只需在补码形式下截掉一定数量的高位二进制数即可</strong>。</li>
+<li>第二，虽然直接把一个整数值转换为一个string类型的值是可行的，但值得关注的是，<strong>被转换的整数值应该可以代表一个有效的Unicode代码点</strong>，否则转换的结果将会是”�”（仅由高亮的问号组成的字符串值）。比如string(-1)，就是�</li>
+<li>第三，<strong>关于string类型与各种切片类型之间的互转的</strong>。<ul>
+<li>一个值在从string类型向[]byte类型转换时代表着以UTF-8编码的字符串会被拆分成零散、独立的字节。<code>string([]byte{&#39;\xe4&#39;, &#39;\xbd&#39;, &#39;\xa0&#39;, &#39;\xe5&#39;, &#39;\xa5&#39;, &#39;\xbd&#39;}) // 你好</code></li>
+<li>一个值在从string类型向[]rune类型转换时代表着字符串会被拆分成一个个Unicode字符。<code>string([]rune{&#39;\u4F60&#39;, &#39;\u597D&#39;}) // 你好</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>(5).<strong>什么是别名类型？什么是潜在类型？</strong></p>
+<ul>
+<li>①.“别名类型”：<code>type MyString = string</code>，比如byte是uint8的别名类型，而rune是int32的别名类型。</li>
+<li>②.类型再定义：<code>type MyString2 string // 注意，这里没有等号。</code>MyString2和string就是两个不同的类型了。这里的MyString2是一个新的类型，不同于其他任何类型。<br><img src="//lospark.github.io/2019/08/11/6.变量作用域/img4.png" alt="image.png"></li>
+<li>③.对于这里的类型再定义来说，string可以被称为MyString2的潜在类型。潜在类型的含义是：某个类型在本质上是哪个类型，或者是哪个类型的集合。</li>
+<li>④.如果两个值潜在类型相同，却属于不同类型，它们之间是可以进行类型转换的。因此，MyString2类型的值与string类型的值，可以使用类型转换表达式进行互转。</li>
+<li>⑤.但对于集合类的类型[]MyString2与[]string来说这样做却是不合法的，因为[]MyString2与[]string的潜在类型不同，分别是MyString2和string。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center;">
+  <img id="wechat_subscriber_qcode" src="/" alt="lospark wechat" style="width: 200px; max-width: 100%;">
+  <div></div>
+</div>
+
+      
+        
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/go/" rel="tag"># go</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/08/11/5.反射、并发/" rel="next" title="5.反射、并发">
+                  <i class="fa fa-chevron-left"></i> 5.反射、并发
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2019/08/11/7.go的集合工具/" rel="prev" title="7.go的集合工具">
+                  7.go的集合工具 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/head.jpg"
+      alt="lospark">
+  <p class="site-author-name" itemprop="name">lospark</p>
+  <div class="site-description motion-element" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+      
+        
+      
+        <a href="https://github.com/lospark" title="GitHub &rarr; https://github.com/lospark" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+      
+        
+      
+        <a href="mailto:786834592@qq.com" title="E-Mail &rarr; mailto:786834592@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i></a>
+      </span>
+    
+  </div>
+
+
+
+        </div>
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lospark</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.3.0</div>
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+
+    
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+<script src="/js/utils.js?v=7.3.0"></script>
+  <script src="/js/motion.js?v=7.3.0"></script>
+
+
+  <script src="/js/affix.js?v=7.3.0"></script>
+  <script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.3.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script>
+<script src="/js/post-details.js?v=7.3.0"></script>
+
+
+</body>
+</html>
