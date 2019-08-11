@@ -67,7 +67,7 @@
 <meta property="og:image" content="https://lospark.github.io/2019/08/11/6.变量作用域/img2.png">
 <meta property="og:image" content="https://lospark.github.io/2019/08/11/6.变量作用域/img3.png">
 <meta property="og:image" content="https://lospark.github.io/2019/08/11/6.变量作用域/img4.png">
-<meta property="og:updated_time" content="2019-08-11T05:42:28.907Z">
+<meta property="og:updated_time" content="2019-08-11T06:51:05.554Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="6.变量作用域">
 <meta name="twitter:description" content="1. 库源码文件 (1).代码包声明的基本规则 ①.第一条规则，同目录下的源码文件的代码包声明语句要一致。也就是说，它们要同属于一个代码包。这对于所有源码文件都是适用的。 代码包指的是：文件开头package 关键字后面的代码包声明 如果目录中有命令源码文件，那么其他种类的源码文件也应该声明属于main包。这也是我们能够成功构建和运行它们的前提。   ②.第二条规则，源码文件声明的代码包的名称可">
@@ -317,7 +317,7 @@
                 
               
 
-              <time title="创建时间：2019-08-11 13:25:17 / 修改时间：05:42:28" itemprop="dateCreated datePublished" datetime="2019-08-11T13:25:17Z">2019-08-11</time>
+              <time title="创建时间：2019-08-11 13:25:17 / 修改时间：06:51:05" itemprop="dateCreated datePublished" datetime="2019-08-11T13:25:17Z">2019-08-11</time>
             </span>
           
             
@@ -330,14 +330,14 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/1-Golang/" itemprop="url" rel="index"><span itemprop="name">1.Golang</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/01-Golang/" itemprop="url" rel="index"><span itemprop="name">01.Golang</span></a></span>
 
                 
                 
                   ，
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/1-Golang/6-变量作用域/" itemprop="url" rel="index"><span itemprop="name">6.变量作用域</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/01-Golang/06-变量作用域/" itemprop="url" rel="index"><span itemprop="name">06.变量作用域</span></a></span>
 
                 
                 
@@ -381,7 +381,7 @@
 <ul>
 <li><p>①.第一种方式：<code>var name = *flag.String(&quot;name&quot;, &quot;everyone&quot;, &quot;The greeting object.&quot;)</code>  类型*string代表的是字符串的指针类型，而不是字符串类型。<strong>代码在声明变量name的同时，还为它赋了值，而这时声明中并没有显式指定name的类型</strong>。</p>
 </li>
-<li><p>②.第二种方式：<code>name := *flag.String(&quot;name&quot;, &quot;everyone&quot;, &quot;The greeting object.&quot;)</code>。实际上就是Go语言的类型推断再加上一点点语法糖。<strong>我们只能在函数体内部使用短变量声明。在编写if、for或switch语句的时候，我们经常把它安插在初始化子句中，并用来声明一些临时的变量</strong>。而相比之下，第一种方式更加通用，它可以被用在任何地方。<br><img src="//lospark.github.io/2019/08/11/6.变量作用域/img1.png" alt="image.png"></p>
+<li><p>②.第二种方式：<code>name := *flag.String(&quot;name&quot;, &quot;everyone&quot;, &quot;The greeting object.&quot;)</code>。实际上就是Go语言的类型推断再加上一点点语法糖。<strong>我们只能在函数体内部使用短变量声明。在编写if、for或switch语句的时候，我们经常把它安插在初始化子句中，并用来声明一些临时的变量</strong>。而相比之下，第一种方式更加通用，它可以被用在任何地方。<br><img src="/2019/08/11/6.变量作用域/img1.png" alt="image.png"></p>
 </li>
 <li><p>③.类型推断是一种编程语言在编译期自动解释表达式类型的能力(表达式类型就是对表达式进行求值后得到结果的类型)。</p>
 </li>
@@ -443,7 +443,7 @@
 <li>变量重声明中的变量一定是在某一个代码块内的。注意，这里的“某一个代码块内”并不包含它的任何子代码块，否则就变成了“多个代码块之间”。而可重名变量指的正是在多个代码块之间由相同的标识符代表的变量。</li>
 <li>变量重声明是对同一个变量的多次声明，这里的变量只有一个。而可重名变量中涉及的变量肯定是有多个的。</li>
 <li>不论对变量重声明多少次，其类型必须始终一致，具体遵从它第一次被声明时给定的类型。而可重名变量之间不存在类似的限制，它们的类型可以是任意的。</li>
-<li>如果可重名变量所在的代码块之间，存在直接或间接的嵌套关系，那么它们之间一定会存在“屏蔽”的现象。但是这种现象绝对不会在变量重声明的场景下出现。<br><img src="//lospark.github.io/2019/08/11/6.变量作用域/img2.png" alt="image.png"></li>
+<li>如果可重名变量所在的代码块之间，存在直接或间接的嵌套关系，那么它们之间一定会存在“屏蔽”的现象。但是这种现象绝对不会在变量重声明的场景下出现。<br><img src="/2019/08/11/6.变量作用域/img2.png" alt="image.png"></li>
 </ul>
 </li>
 </ul>
@@ -458,7 +458,7 @@
 <li>.([]string)：判断前者的类型是否为切片类型 []string。</li>
 <li>变量ok是布尔（bool）类型的，它将代表类型判断的结果，true或false。</li>
 <li>如果是true，那么被判断的值将会被自动转换为[]string类型的值，并赋给变量value，否则value将被赋予nil（即“空”）。</li>
-<li>如果没有ok，判断为false时，会发生异常，panic<br><img src="//lospark.github.io/2019/08/11/6.变量作用域/img3.png" alt="image.png"></li>
+<li>如果没有ok，判断为false时，会发生异常，panic<br><img src="/2019/08/11/6.变量作用域/img3.png" alt="image.png"></li>
 </ul>
 </li>
 <li>②.interface{}代表空接口，任何类型都是它的实现类型。interface{}(x)。<ul>
@@ -482,7 +482,7 @@
 <li><p>(5).<strong>什么是别名类型？什么是潜在类型？</strong></p>
 <ul>
 <li>①.“别名类型”：<code>type MyString = string</code>，比如byte是uint8的别名类型，而rune是int32的别名类型。</li>
-<li>②.类型再定义：<code>type MyString2 string // 注意，这里没有等号。</code>MyString2和string就是两个不同的类型了。这里的MyString2是一个新的类型，不同于其他任何类型。<br><img src="//lospark.github.io/2019/08/11/6.变量作用域/img4.png" alt="image.png"></li>
+<li>②.类型再定义：<code>type MyString2 string // 注意，这里没有等号。</code>MyString2和string就是两个不同的类型了。这里的MyString2是一个新的类型，不同于其他任何类型。<br><img src="/2019/08/11/6.变量作用域/img4.png" alt="image.png"></li>
 <li>③.对于这里的类型再定义来说，string可以被称为MyString2的潜在类型。潜在类型的含义是：某个类型在本质上是哪个类型，或者是哪个类型的集合。</li>
 <li>④.如果两个值潜在类型相同，却属于不同类型，它们之间是可以进行类型转换的。因此，MyString2类型的值与string类型的值，可以使用类型转换表达式进行互转。</li>
 <li>⑤.但对于集合类的类型[]MyString2与[]string来说这样做却是不合法的，因为[]MyString2与[]string的潜在类型不同，分别是MyString2和string。</li>
@@ -497,12 +497,6 @@
     
     
     
-        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center;">
-  <img id="wechat_subscriber_qcode" src="/" alt="lospark wechat" style="width: 200px; max-width: 100%;">
-  <div></div>
-</div>
-
-      
         
       
 

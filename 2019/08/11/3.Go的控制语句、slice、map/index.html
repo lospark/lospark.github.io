@@ -64,7 +64,7 @@
 <meta property="og:description" content="1.if语句 (1).条件表达式没有括号  123 if 1 &amp;lt; 2 &amp;#123;    fmt.Println(&amp;quot;A&amp;quot;)&amp;#125;  (2).支持一个初始化表达式（可以是并行方式） 123456a := 10if b:= 1,a:=1;a&amp;gt;0 &amp;#123;    fmt.Println(a);&amp;#125;fmt.Println(a);输出 1 10  (3).">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://lospark.github.io/2019/08/11/3.Go的控制语句、slice、map/slice.png">
-<meta property="og:updated_time" content="2019-08-11T05:33:10.087Z">
+<meta property="og:updated_time" content="2019-08-11T06:50:30.930Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="3.Go的控制语句、slice、map">
 <meta name="twitter:description" content="1.if语句 (1).条件表达式没有括号  123 if 1 &amp;lt; 2 &amp;#123;    fmt.Println(&amp;quot;A&amp;quot;)&amp;#125;  (2).支持一个初始化表达式（可以是并行方式） 123456a := 10if b:= 1,a:=1;a&amp;gt;0 &amp;#123;    fmt.Println(a);&amp;#125;fmt.Println(a);输出 1 10  (3).">
@@ -314,7 +314,7 @@
                 
               
 
-              <time title="创建时间：2019-08-11 13:23:22 / 修改时间：05:33:10" itemprop="dateCreated datePublished" datetime="2019-08-11T13:23:22Z">2019-08-11</time>
+              <time title="创建时间：2019-08-11 13:23:22 / 修改时间：06:50:30" itemprop="dateCreated datePublished" datetime="2019-08-11T13:23:22Z">2019-08-11</time>
             </span>
           
             
@@ -327,14 +327,14 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/1-Golang/" itemprop="url" rel="index"><span itemprop="name">1.Golang</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/01-Golang/" itemprop="url" rel="index"><span itemprop="name">01.Golang</span></a></span>
 
                 
                 
                   ，
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/1-Golang/3-Go的控制语句、slice、map/" itemprop="url" rel="index"><span itemprop="name">3.Go的控制语句、slice、map</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/01-Golang/03-Go的控制语句、slice、map/" itemprop="url" rel="index"><span itemprop="name">03.Go的控制语句、slice、map</span></a></span>
 
                 
                 
@@ -454,7 +454,7 @@
 <li><p>(1).slice的声明</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">1.声明一个slice</span><br><span class="line">中括号中既没有...,也没有数字</span><br><span class="line">var a []int</span><br><span class="line">2.截取数组成为一个slice，</span><br><span class="line">var a = [10]int&#123;&#125;</span><br><span class="line">s1 := a[5:10]//这里含头不含尾</span><br><span class="line">//取数组末尾5个元素</span><br><span class="line">s1 := a[5:]</span><br><span class="line">//取数组前5个元素</span><br><span class="line">s1 := a[:5]</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>(2).其本身并不是数组，它指向底层的数组<br><img src="//lospark.github.io/2019/08/11/3.Go的控制语句、slice、map/slice.png" alt="slice"></p>
+<li><p>(2).其本身并不是数组，它指向底层的数组<br><img src="/2019/08/11/3.Go的控制语句、slice、map/slice.png" alt="slice"></p>
 </li>
 <li><p>(3).作为变长数组的替代方案，可以关联底层数组的局部或全部</p>
 </li>
@@ -552,12 +552,6 @@
     
     
     
-        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center;">
-  <img id="wechat_subscriber_qcode" src="/" alt="lospark wechat" style="width: 200px; max-width: 100%;">
-  <div></div>
-</div>
-
-      
         
       
 

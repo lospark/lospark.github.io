@@ -55,19 +55,19 @@
   };
 </script>
 
-  <meta name="description" content="① ② ③ ④ ⑤ ⑥ ⑦ ⑧ ⑨ ⑩  1.go中的编程哲学和并发编程模式 (1).Don’t communicate by sharing memory; share memory by communicating–不要通过共享数据来通讯，恰恰相反，要以通讯的方式共享数据。  ①.通道（也就是channel）类型的值，可以被用来以通讯的方式共享数据。更具体地说，它一般被用来在不同的gorout">
+  <meta name="description" content="1.go中的编程哲学和并发编程模式 (1).Don’t communicate by sharing memory; share memory by communicating–不要通过共享数据来通讯，恰恰相反，要以通讯的方式共享数据。  ①.通道（也就是channel）类型的值，可以被用来以通讯的方式共享数据。更具体地说，它一般被用来在不同的goroutine之间传递数据。 ②.gorouti">
 <meta name="keywords" content="go">
 <meta property="og:type" content="article">
 <meta property="og:title" content="10.go的同步工具">
 <meta property="og:url" content="https://lospark.github.io/2019/08/11/10.go的同步工具/index.html">
 <meta property="og:site_name" content="Eirunye Activity">
-<meta property="og:description" content="① ② ③ ④ ⑤ ⑥ ⑦ ⑧ ⑨ ⑩  1.go中的编程哲学和并发编程模式 (1).Don’t communicate by sharing memory; share memory by communicating–不要通过共享数据来通讯，恰恰相反，要以通讯的方式共享数据。  ①.通道（也就是channel）类型的值，可以被用来以通讯的方式共享数据。更具体地说，它一般被用来在不同的gorout">
+<meta property="og:description" content="1.go中的编程哲学和并发编程模式 (1).Don’t communicate by sharing memory; share memory by communicating–不要通过共享数据来通讯，恰恰相反，要以通讯的方式共享数据。  ①.通道（也就是channel）类型的值，可以被用来以通讯的方式共享数据。更具体地说，它一般被用来在不同的goroutine之间传递数据。 ②.gorouti">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://lospark.github.io/2019/08/11/10.go的同步工具/img1.png">
-<meta property="og:updated_time" content="2019-08-11T05:53:37.666Z">
+<meta property="og:updated_time" content="2019-08-11T06:52:04.195Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="10.go的同步工具">
-<meta name="twitter:description" content="① ② ③ ④ ⑤ ⑥ ⑦ ⑧ ⑨ ⑩  1.go中的编程哲学和并发编程模式 (1).Don’t communicate by sharing memory; share memory by communicating–不要通过共享数据来通讯，恰恰相反，要以通讯的方式共享数据。  ①.通道（也就是channel）类型的值，可以被用来以通讯的方式共享数据。更具体地说，它一般被用来在不同的gorout">
+<meta name="twitter:description" content="1.go中的编程哲学和并发编程模式 (1).Don’t communicate by sharing memory; share memory by communicating–不要通过共享数据来通讯，恰恰相反，要以通讯的方式共享数据。  ①.通道（也就是channel）类型的值，可以被用来以通讯的方式共享数据。更具体地说，它一般被用来在不同的goroutine之间传递数据。 ②.gorouti">
 <meta name="twitter:image" content="https://lospark.github.io/2019/08/11/10.go的同步工具/img1.png">
   <link rel="canonical" href="https://lospark.github.io/2019/08/11/10.go的同步工具/">
 
@@ -314,7 +314,7 @@
                 
               
 
-              <time title="创建时间：2019-08-11 13:27:27 / 修改时间：05:53:37" itemprop="dateCreated datePublished" datetime="2019-08-11T13:27:27Z">2019-08-11</time>
+              <time title="创建时间：2019-08-11 13:27:27 / 修改时间：06:52:04" itemprop="dateCreated datePublished" datetime="2019-08-11T13:27:27Z">2019-08-11</time>
             </span>
           
             
@@ -327,14 +327,14 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/1-Golang/" itemprop="url" rel="index"><span itemprop="name">1.Golang</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/01-Golang/" itemprop="url" rel="index"><span itemprop="name">01.Golang</span></a></span>
 
                 
                 
                   ，
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/1-Golang/10-go的同步工具/" itemprop="url" rel="index"><span itemprop="name">10.go的同步工具</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/01-Golang/10-go的同步工具/" itemprop="url" rel="index"><span itemprop="name">10.go的同步工具</span></a></span>
 
                 
                 
@@ -353,8 +353,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>① ② ③ ④ ⑤ ⑥ ⑦ ⑧ ⑨ ⑩</p>
-<ul>
+        <ul>
 <li><h5 id="1-go中的编程哲学和并发编程模式"><a href="#1-go中的编程哲学和并发编程模式" class="headerlink" title="1.go中的编程哲学和并发编程模式"></a>1.go中的编程哲学和并发编程模式</h5><ul>
 <li><p>(1).Don’t communicate by sharing memory; share memory by communicating–不要通过共享数据来通讯，恰恰相反，要以通讯的方式共享数据。</p>
 <ul>
@@ -387,7 +386,7 @@
 <li>②.其中的<strong>M指代的就是系统级线程。而P是一个中介，可以承载若干个G，且能够使这些G适时地与M进行对接，并得到真正运行</strong>。</li>
 <li>③.从宏观上说，<strong>G和M由于P的存在可以呈现出多对多的关系</strong>。当一个正在与某个M对接并运行着的G，需要因某个事件（比如等待I/O或锁的解除）而暂停运行的时候，调度器总会及时地发现，并把这个G与那个M分离开，以释放计算资源供那些等待运行的G使用。</li>
 <li>④.<strong>而当一个G需要恢复运行的时候，调度器又会尽快地为它寻找空闲的计算资源（包括M）并安排运行</strong>。另外，当M不够用时，调度器会帮我们向操作系统申请新的系统级线程，而当某个M已无用时，调度器又会负责把它及时地销毁掉。</li>
-<li>⑤.正因为调度器帮助我们做了很多事，所以我们的Go程序才总是能高效地利用操作系统和计算机资源。程序中的所有goroutine也都会被充分地调度，其中的代码也都会被并发地运行，即使这样的goroutine有数以十万计，也仍然可以如此。<br><img src="//lospark.github.io/2019/08/11/10.go的同步工具/img1.png" alt="image.png"></li>
+<li>⑤.正因为调度器帮助我们做了很多事，所以我们的Go程序才总是能高效地利用操作系统和计算机资源。程序中的所有goroutine也都会被充分地调度，其中的代码也都会被并发地运行，即使这样的goroutine有数以十万计，也仍然可以如此。<br><img src="/2019/08/11/10.go的同步工具/img1.png" alt="image.png"></li>
 </ul>
 </li>
 <li><p>(5).<strong>什么是主goroutine，它与我们启用的其他goroutine有什么不同？</strong></p>
@@ -813,12 +812,6 @@
     
     
     
-        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center;">
-  <img id="wechat_subscriber_qcode" src="/" alt="lospark wechat" style="width: 200px; max-width: 100%;">
-  <div></div>
-</div>
-
-      
         
       
 

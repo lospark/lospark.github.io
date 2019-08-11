@@ -65,7 +65,7 @@
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://lospark.github.io/2019/08/11/7.go的集合工具/img1.png">
 <meta property="og:image" content="https://lospark.github.io/2019/08/11/7.go的集合工具/img2.png">
-<meta property="og:updated_time" content="2019-08-11T05:47:07.415Z">
+<meta property="og:updated_time" content="2019-08-11T06:51:19.095Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="7.go的集合工具">
 <meta name="twitter:description" content="1.数组（array）类型和切片（slice）类型 (1).比较：  它们的共同点是都属于集合类的类型，并且，它们的值也都可以用来存储某一种类型的值（或者说元素）。 不过，它们最重要的不同是：数组类型的值（以下简称数组）的长度是固定的，而切片类型的值（以下简称切片）是可变长的。 数组的长度在声明它的时候就必须给定，并且之后不会再改变。可以说，数组的长度是其类型的一部分。比如，[1]string和">
@@ -315,7 +315,7 @@
                 
               
 
-              <time title="创建时间：2019-08-11 13:25:44 / 修改时间：05:47:07" itemprop="dateCreated datePublished" datetime="2019-08-11T13:25:44Z">2019-08-11</time>
+              <time title="创建时间：2019-08-11 13:25:44 / 修改时间：06:51:19" itemprop="dateCreated datePublished" datetime="2019-08-11T13:25:44Z">2019-08-11</time>
             </span>
           
             
@@ -328,14 +328,14 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/1-Golang/" itemprop="url" rel="index"><span itemprop="name">1.Golang</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/01-Golang/" itemprop="url" rel="index"><span itemprop="name">01.Golang</span></a></span>
 
                 
                 
                   ，
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/1-Golang/7-go的集合工具/" itemprop="url" rel="index"><span itemprop="name">7.go的集合工具</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/01-Golang/07-go的集合工具/" itemprop="url" rel="index"><span itemprop="name">07.go的集合工具</span></a></span>
 
                 
                 
@@ -361,7 +361,7 @@
 <li>它们的共同点是都属于集合类的类型，并且，它们的值也都可以用来存储某一种类型的值（或者说元素）。</li>
 <li>不过，它们最重要的不同是：<strong>数组类型的值（以下简称数组）的长度是固定的，而切片类型的值（以下简称切片）是可变长的</strong>。</li>
 <li><strong>数组的长度在声明它的时候就必须给定，并且之后不会再改变</strong>。可以说，数组的长度是其类型的一部分。比如，[1]string和[2]string就是两个不同的数组类型。</li>
-<li><strong>而切片的类型字面量中只有元素的类型，而没有长度</strong>。切片的长度可以自动地随着其中元素数量的增长而增长，但不会随着元素数量的减少而减小。<br><img src="//lospark.github.io/2019/08/11/7.go的集合工具/img1.png" alt="image.png"></li>
+<li><strong>而切片的类型字面量中只有元素的类型，而没有长度</strong>。切片的长度可以自动地随着其中元素数量的增长而增长，但不会随着元素数量的减少而减小。<br><img src="/2019/08/11/7.go的集合工具/img1.png" alt="image.png"></li>
 </ul>
 </li>
 <li><p>(2).我们其实可以把切片看做是对数组的一层简单的封装，因为在每个切片的底层数据结构中，一定会包含一个数组。<strong>数组可以被叫做切片的底层数组，而切片也可以被看作是对数组的某个连续片段的引用</strong>。</p>
@@ -379,7 +379,7 @@
 </li>
 <li><p>③.切片代表的窗口也会被划分成一个一个的小格子，就像我们家里的窗户那样。每个小格子都对应着其底层数组中的某一个元素。<strong>这个窗口最左边的那个小格子对应的正好是其底层数组中的第一个元素，即索引为0的那个元素</strong></p>
 </li>
-<li><p>④.<strong>当我们用make函数或切片值字面量（比如[]int{1, 2, 3}）初始化一个切片时，该窗口最左边的那个小格子总是会对应其底层数组中的第1个元素</strong>。<br><img src="//lospark.github.io/2019/08/11/7.go的集合工具/img2.png" alt="image.png"></p>
+<li><p>④.<strong>当我们用make函数或切片值字面量（比如[]int{1, 2, 3}）初始化一个切片时，该窗口最左边的那个小格子总是会对应其底层数组中的第1个元素</strong>。<br><img src="/2019/08/11/7.go的集合工具/img2.png" alt="image.png"></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">s3 := []int&#123;1, 2, 3, 4, 5, 6, 7, 8&#125;</span><br><span class="line">s4 := s3[3:6]</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>⑤.容量：<strong>一个切片的容量可以被看作是透过这个窗口最多可以看到的底层数组中元素的个数，在底层数组不变的情况下，切片代表的窗口可以向右扩展，直至其底层数组的末尾。注意，切片代表的窗口是无法向左扩展的。也就是说，我们永远无法透过s4看到s3中最左边的那3个元素。</strong></p>
@@ -657,12 +657,6 @@
     
     
     
-        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center;">
-  <img id="wechat_subscriber_qcode" src="/" alt="lospark wechat" style="width: 200px; max-width: 100%;">
-  <div></div>
-</div>
-
-      
         
       
 
