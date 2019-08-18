@@ -64,7 +64,9 @@
 <meta property="og:description" content="一.基础语法 1.引用包不使用，在main方法执行之前使用 1234567package mainimport(    _ “add”)func main () &amp;#123;  fmt.Println(“add not refer:”)&amp;#125;  2.函数声明： func   函数名字 (参数列表) (返回值列表）{}  3.go语言是编译语言，所以不能在全局区域写执行语句(解释语言及脚本语">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://lospark.github.io/2019/08/11/08.基础/img.png">
-<meta property="og:updated_time" content="2019-08-11T15:15:56.598Z">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/8337040-e6e197d4f2ab8ce4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/8337040-06f4728459c0a1df.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2019-08-18T15:10:59.993Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="08.基础">
 <meta name="twitter:description" content="一.基础语法 1.引用包不使用，在main方法执行之前使用 1234567package mainimport(    _ “add”)func main () &amp;#123;  fmt.Println(“add not refer:”)&amp;#125;  2.函数声明： func   函数名字 (参数列表) (返回值列表）{}  3.go语言是编译语言，所以不能在全局区域写执行语句(解释语言及脚本语">
@@ -314,11 +316,19 @@
                 
               
 
-              <time title="创建时间：2019-08-11 13:26:31 / 修改时间：15:15:56" itemprop="dateCreated datePublished" datetime="2019-08-11T13:26:31Z">2019-08-11</time>
+              <time title="创建时间：2019-08-11 13:26:31" itemprop="dateCreated datePublished" datetime="2019-08-11T13:26:31Z">2019-08-11</time>
             </span>
           
             
 
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-08-18 15:10:59" itemprop="dateModified" datetime="2019-08-18T15:10:59Z">2019-08-18</time>
+              </span>
             
           
             <span class="post-meta-item">
@@ -520,11 +530,77 @@
 </li>
 <li><p>(8).定义错误</p>
 <ul>
-<li>第一种：<code>var errNotFound error = errors.New(&quot;Not found error&quot;)</code></li>
-<li>第二种：定义错误类型<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">type PathError struct &#123;</span><br><span class="line">  Op   string</span><br><span class="line">  Path string</span><br><span class="line">  err string</span><br><span class="line">&#125;</span><br><span class="line">func (e *PathError) Error() string &#123;</span><br><span class="line">  return e.Op + &quot; &quot; + e.Path + &quot;: &quot; + e.Err.Error()</span><br><span class="line">&#125;</span><br><span class="line">func test() error &#123;</span><br><span class="line">  return &amp;PathError&#123;</span><br><span class="line">    Op:   &quot;op&quot;,</span><br><span class="line">    Path: &quot;path&quot;,</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<li><p>第一种：<code>var errNotFound error = errors.New(&quot;Not found error&quot;)</code></p>
+</li>
+<li><p>第二种：定义错误类型</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">type PathError struct &#123;</span><br><span class="line">  Op   string</span><br><span class="line">  Path string</span><br><span class="line">  err string</span><br><span class="line">&#125;</span><br><span class="line">func (e *PathError) Error() string &#123;</span><br><span class="line">  return e.Op + &quot; &quot; + e.Path + &quot;: &quot; + e.Err.Error()</span><br><span class="line">&#125;</span><br><span class="line">func test() error &#123;</span><br><span class="line">  return &amp;PathError&#123;</span><br><span class="line">    Op:   &quot;op&quot;,</span><br><span class="line">    Path: &quot;path&quot;,</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>(9).Slice:</p>
 </li>
 </ul>
+</li>
+<li><p>切片转成数组：<code>arr := slice...</code></p>
+</li>
+<li><p>切片清空：<code>slice = slice[:]</code></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h5 id="二-、-goroutine"><a href="#二-、-goroutine" class="headerlink" title="二 、 goroutine"></a>二 、 goroutine</h5><ul>
+<li><p>(1).协程和线程的区别</p>
+<ul>
+<li>协程：独立的栈空间，共享堆内存，调度由用户控制，本质上有点类似用户级线程，这些用户级线程的调度也是自己实现的</li>
+<li>线程：一个线程上可以跑多个协程<br><img src="https://upload-images.jianshu.io/upload_images/8337040-e6e197d4f2ab8ce4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br><img src="https://upload-images.jianshu.io/upload_images/8337040-06f4728459c0a1df.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></li>
+</ul>
+</li>
+<li><p>(2).不同的goroutine之间如何进行通信</p>
+<ul>
+<li>全局变量和锁同步机制</li>
+<li>Channel</li>
+</ul>
+</li>
+<li><p>(3).channel中元素的读取</p>
+<ul>
+<li>一种是在死循环中读取channel中的数据，如果channel未关闭，那么会阻塞在&lt;-操作符的哪一行上。解决方法：关闭channel且在循环判断时，判断channel是否关闭。<code>v,ok := &lt;- ch</code></li>
+<li><strong>一种是通过 for range中取出管道中的值，一旦range检测通道关闭，且通道中没有值的时候，就会关闭channel</strong></li>
+</ul>
+</li>
+<li><p>(4).在go语言中启动一个task，<strong>只需要将代码逻辑通过匿名函数包裹起来即可</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">go func()&#123;</span><br><span class="line">  //代码逻辑</span><br><span class="line">&#125;()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>(5).TCP 服务端</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">func main() &#123;</span><br><span class="line">  fmt.Println(&quot;start server...&quot;)</span><br><span class="line">  listen, err := net.Listen(&quot;tcp&quot;, &quot;0.0.0.0:50000&quot;)</span><br><span class="line">  if err != nil &#123;</span><br><span class="line">    fmt.Println(&quot;listen failed, err:&quot;, err)</span><br><span class="line">    return</span><br><span class="line">  &#125;</span><br><span class="line">  for &#123;</span><br><span class="line">    conn, err := listen.Accept()</span><br><span class="line">    if err != nil &#123;</span><br><span class="line">      fmt.Println(&quot;accept failed, err:&quot;, err)</span><br><span class="line">      continue</span><br><span class="line">    &#125;</span><br><span class="line">    go process(conn)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">func process(conn net.Conn) &#123;</span><br><span class="line">  defer conn.Close()</span><br><span class="line">  for &#123;</span><br><span class="line">    buf := make([]byte, 512)</span><br><span class="line">    n, err := conn.Read(buf)</span><br><span class="line">    if err != nil &#123;</span><br><span class="line">      fmt.Println(&quot;read err:&quot;, err)</span><br><span class="line">      return</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    fmt.Printf(string(buf[0:n]))</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>(6).TCP客户端</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">func main() &#123;</span><br><span class="line">  conn, err := net.Dial(&quot;tcp&quot;, &quot;localhost:50000&quot;)</span><br><span class="line">  if err != nil &#123;</span><br><span class="line">    fmt.Println(&quot;Error dialing&quot;, err.Error())</span><br><span class="line">    return</span><br><span class="line">  &#125;</span><br><span class="line">  defer conn.Close()</span><br><span class="line">  inputReader := bufio.NewReader(os.Stdin)</span><br><span class="line">  for &#123;</span><br><span class="line">    input, _ := inputReader.ReadString(&apos;\n&apos;)</span><br><span class="line">    trimmedInput := strings.Trim(input, &quot;\r\n&quot;)</span><br><span class="line">    if trimmedInput == &quot;Q&quot; &#123;</span><br><span class="line">      return</span><br><span class="line">    &#125;</span><br><span class="line">    _, err = conn.Write([]byte(trimmedInput))</span><br><span class="line">    if err != nil &#123;</span><br><span class="line">      return</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>(7).redis使用</p>
+<ul>
+<li>使用第三方开源的redis库: github.com/garyburd/redigo/redis<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">import(</span><br><span class="line">  “github.com/garyburd/redigo/redis&quot;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h5 id="三-、-http"><a href="#三-、-http" class="headerlink" title="三 、 http"></a>三 、 http</h5><ul>
+<li><p>1.http的服务端</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">func Hello(w http.ResponseWriter, r *http.Request) &#123;</span><br><span class="line">  fmt.Println(&quot;handle hello&quot;)</span><br><span class="line">  fmt.Fprintf(w, &quot;hello &quot;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">  http.HandleFunc(&quot;/hello&quot;, Hello)</span><br><span class="line">  err := http.ListenAndServe(&quot;0.0.0.0:8880&quot;, nil)</span><br><span class="line">  if err != nil &#123;</span><br><span class="line">    fmt.Println(&quot;http listen failed&quot;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>2.http客户端</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">func main() &#123;</span><br><span class="line">  res, err := http.Get(&quot;https://www.baidu.com/&quot;)</span><br><span class="line">  if err != nil &#123;</span><br><span class="line">    fmt.Println(&quot;get err:&quot;, err)</span><br><span class="line">    return</span><br><span class="line">  &#125;</span><br><span class="line">  data, err := ioutil.ReadAll(res.Body)</span><br><span class="line">  if err != nil &#123;</span><br><span class="line">    fmt.Println(&quot;get data err:&quot;, err)</span><br><span class="line">    return</span><br><span class="line">  &#125;</span><br><span class="line">  fmt.Println(string(data))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>3.panic的处理，使用闭包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">func main() &#123;</span><br><span class="line">  http.HandleFunc(&quot;/test1&quot;, logPanics(SimpleServer))</span><br><span class="line">  http.HandleFunc(&quot;/test2&quot;, logPanics(FormServer))</span><br><span class="line">  if err := http.ListenAndServe(&quot;:8088&quot;, nil); err != nil &#123;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func logPanics(handle http.HandlerFunc) http.HandlerFunc &#123;</span><br><span class="line">  return func(writer http.ResponseWriter, request *http.Request) &#123;</span><br><span class="line">    defer func() &#123;</span><br><span class="line">      if x := recover(); x != nil &#123;</span><br><span class="line">        log.Printf(&quot;[%v] caught panic: %v&quot;, request.RemoteAddr, x)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;()</span><br><span class="line">    handle(writer, request)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>4.模板</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">type Person struct &#123;</span><br><span class="line">  Name string</span><br><span class="line">  age  string</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">  t, err := template.ParseFiles(&quot;./index.html&quot;)</span><br><span class="line">  if err != nil &#123;</span><br><span class="line">    fmt.Println(&quot;parse file err:&quot;, err)</span><br><span class="line">    return</span><br><span class="line">  &#125;</span><br><span class="line">  p := Person&#123;Name: &quot;Mary&quot;, age: &quot;31&quot;&#125;</span><br><span class="line">  if err := t.Execute(os.Stdout, p); err != nil &#123;</span><br><span class="line">    fmt.Println(&quot;There was an error:&quot;, err.Error())</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>5.MySQL</p>
+<ul>
+<li>(1).链接mysql：`database, err := sqlx.Open(“mysql”, “root:@tcp(127.0.0.1:3306)/test”)</li>
+<li>(2).操作<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">import (</span><br><span class="line">  _ &quot;github.com/go-sql-driver/mysql&quot;</span><br><span class="line">  &quot;github.com/jmoiron/sqlx&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">var Db *sqlx.DB</span><br><span class="line">type Person struct &#123;</span><br><span class="line">  UserId   int    `db:&quot;user_id&quot;`</span><br><span class="line">  Username string `db:&quot;username&quot;`</span><br><span class="line">  Sex      string `db:&quot;sex&quot;`</span><br><span class="line">  Email    string `db:&quot;email&quot;`</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">type Place struct &#123;</span><br><span class="line">  Country string `db:&quot;country&quot;`</span><br><span class="line">  City    string `db:&quot;city&quot;`</span><br><span class="line">  TelCode int    `db:&quot;telcode&quot;`</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func init() &#123;</span><br><span class="line">  database, err := sqlx.Open(&quot;mysql&quot;, &quot;root:root@tcp(127.0.0.1:3306)/test&quot;)</span><br><span class="line">  if err != nil &#123;</span><br><span class="line">    fmt.Println(&quot;open mysql failed,&quot;, err)</span><br><span class="line">    return</span><br><span class="line">  &#125;</span><br><span class="line">  Db = database</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">  //insert操作</span><br><span class="line">  r, err := Db.Exec(&quot;insert into person(username, sex, email)values(?, ?, ?)&quot;, &quot;stu001&quot;, &quot;man&quot;, &quot;stu01@qq.com&quot;)</span><br><span class="line">  id, err := r.LastInsertId()</span><br><span class="line">  //更新</span><br><span class="line">  _, err := Db.Exec(&quot;update person set username=? where user_id=?&quot;, &quot;stu0003&quot;, 1)</span><br><span class="line">  if err != nil &#123;</span><br><span class="line">    fmt.Println(&quot;exec failed, &quot;, err)</span><br><span class="line">    return</span><br><span class="line">  &#125;</span><br><span class="line">  //查询</span><br><span class="line">  var person []Person</span><br><span class="line">  err := Db.Select(&amp;person, &quot;select user_id, username, sex, email from person where user_id=?&quot;, 1)</span><br><span class="line">  //删除</span><br><span class="line">  _, err := Db.Exec(&quot;delete from person where user_id=?&quot;, 1)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 </li>
 </ul>
 </li>

@@ -64,7 +64,9 @@
 <meta property="og:description" content="1.go中的编程哲学和并发编程模式 (1).Don’t communicate by sharing memory; share memory by communicating–不要通过共享数据来通讯，恰恰相反，要以通讯的方式共享数据。  ①.通道（也就是channel）类型的值，可以被用来以通讯的方式共享数据。更具体地说，它一般被用来在不同的goroutine之间传递数据。 ②.gorouti">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://lospark.github.io/2019/08/11/10.go的同步工具/img1.png">
-<meta property="og:updated_time" content="2019-08-11T14:55:08.892Z">
+<meta property="og:image" content="https://lospark.github.io/2019/08/11/10.go的同步工具/img2.png">
+<meta property="og:image" content="https://lospark.github.io/2019/08/11/10.go的同步工具/img3.png">
+<meta property="og:updated_time" content="2019-08-18T15:00:35.033Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="10.go的同步工具">
 <meta name="twitter:description" content="1.go中的编程哲学和并发编程模式 (1).Don’t communicate by sharing memory; share memory by communicating–不要通过共享数据来通讯，恰恰相反，要以通讯的方式共享数据。  ①.通道（也就是channel）类型的值，可以被用来以通讯的方式共享数据。更具体地说，它一般被用来在不同的goroutine之间传递数据。 ②.gorouti">
@@ -314,11 +316,19 @@
                 
               
 
-              <time title="创建时间：2019-08-11 13:27:27 / 修改时间：14:55:08" itemprop="dateCreated datePublished" datetime="2019-08-11T13:27:27Z">2019-08-11</time>
+              <time title="创建时间：2019-08-11 13:27:27" itemprop="dateCreated datePublished" datetime="2019-08-11T13:27:27Z">2019-08-11</time>
             </span>
           
             
 
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-08-18 15:00:35" itemprop="dateModified" datetime="2019-08-18T15:00:35Z">2019-08-18</time>
+              </span>
             
           
             <span class="post-meta-item">
@@ -426,10 +436,42 @@
 </ul>
 <ul>
 <li><h5 id="2-解读Process"><a href="#2-解读Process" class="headerlink" title="2.解读Process"></a>2.解读Process</h5><ul>
-<li>(1).Go语言并发编程模型中的P，正是goroutine的数量能够数十万计的关键所在。<strong>P的数量意味着Go程序背后的运行时系统中，会有多少个用于承载可运行的G的队列存在。每一个队列都相当于一条流水线，它会源源不断地把可运行的G输送给空闲的M，并使这两者对接</strong>。<ul>
+<li><p>(1).Go语言并发编程模型中的P，正是goroutine的数量能够数十万计的关键所在。<strong>P的数量意味着Go程序背后的运行时系统中，会有多少个用于承载可运行的G的队列存在。每一个队列都相当于一条流水线，它会源源不断地把可运行的G输送给空闲的M，并使这两者对接</strong>。</p>
+<ul>
 <li>①.G就是goroutine的缩写，可以被理解为Go语言自己实现的用户级线程。M即为machine的缩写，代表着系统级线程，或者说操作系统内核级别的线程。</li>
 <li>②.一旦对接完成，被对接的G就真正地运行在操作系统的内核级线程之上了。<strong>每条流水线之间虽然会有联系，但都是独立运作的</strong>。</li>
 <li>③.<strong>最大P数量就代表着Go语言运行时系统同时运行goroutine的能力，也可以被视为其中逻辑CPU的最大个数</strong>。</li>
+</ul>
+</li>
+<li><p>(2).协程(Coroutine):</p>
+<ul>
+<li><p>①.特性</p>
+<ul>
+<li>轻量级线程、</li>
+<li><strong>非抢占式多任务处理，由协程主动交出控制权</strong>：线程是抢占式多任务处理，即各个任务都是去抢CPU执行权，<strong>线程没有控制权</strong>，当前的线程的语句执行一半，都有可能把CPU掐掉去执行别的资源。但协程不一样，我什么时候交出控制权，是有我内部自己决定的。就是由于非抢占式，所以才能做到轻量级。因为，<strong>抢占式的化，线程需要存很多内容，保证上下文切换时，还能继续运行。非抢占式，只要处理其中几个点就可以了，对资源消耗少</strong></li>
+<li>编译器、解析器、虚拟机层面的多任务。在go中，会把一个func编译成协程，在执行时，会有调度器来调度协程</li>
+<li>多个协程可能在一个或者多个线程上运行：由调度器来决定<br><img src="/2019/08/11/10.go的同步工具/img2.png" alt="image.png"></li>
+</ul>
+</li>
+<li><p>②.<strong>子程序(函数调用就是一个子程序)是协程的一个特例</strong></p>
+<ul>
+<li>协程是一个比子程序更加宽泛的概念。在普通函数调用过程中，控制权的转移是单向的</li>
+<li>但是在协程中，主程序和子程序的控制权是可以来回转移切换，是两个对立任务，控制权可以相互转移<br><img src="/2019/08/11/10.go的同步工具/img3.png" alt="image.png"></li>
+</ul>
+</li>
+<li><p>③.goroutine的定义：</p>
+<ul>
+<li><strong>任何函数只需要加上go就能送给调度器执行，调度器在合适点记性切换。这些点，我们不能完全进行控制。传统意义上协程，需要显示的将切换点表示出来</strong>。可以使用 -race来检测数据冲突</li>
+<li><strong>goroutine可能存在的切换点(只是参考)：</strong><ul>
+<li>IO，select</li>
+<li>channel</li>
+<li>等待锁</li>
+<li>函数调用（有时）</li>
+<li>runtime.Gosched()</li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
